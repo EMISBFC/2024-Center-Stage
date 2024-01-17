@@ -20,14 +20,17 @@ public class TeleOperated {
     private Chassis chassis;
     private DcMotorController dcMotorController;
     private HardwareMap hardwareMap;
+    private Elevator elevator;
+
 
     private ServoController servoController;
 
     public void runOpMode(){
         chassis = new Chassis(hardwareMap);
+        elevator = new Elevator (hardwareMap);
         arm = new Arm(dcMotorController, hardwareMap, servoController);
-
     }
+
 
 
 
