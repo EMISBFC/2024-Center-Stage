@@ -27,7 +27,7 @@ public class TeleOperated {
 
     public void runOpMode(){
         chassis = new Chassis(hardwareMap);
-        elevator = new Elevator (hardwareMap);
+        elevator = new Elevator (dcMotorController);
         arm = new Arm(dcMotorController, hardwareMap, servoController);
     }
 
