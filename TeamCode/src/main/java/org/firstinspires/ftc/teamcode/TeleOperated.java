@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
 @TeleOp(name="ESC Teleop", group="Iterative Opmode")
-public class TeleOperated {
+public class TeleOperated extends LinearOpMode {
     private Arm arm;
     private Chassis chassis;
     private DcMotorController dcMotorController;
@@ -25,7 +25,7 @@ public class TeleOperated {
 
     private ServoController servoController;
 
-    public void runOpMode(){
+    public void runOpMode (){
         chassis = new Chassis(hardwareMap);
         elevator = new Elevator (dcMotorController);
         arm = new Arm(dcMotorController, hardwareMap, servoController);
