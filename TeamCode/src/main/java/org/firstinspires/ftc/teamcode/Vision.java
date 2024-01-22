@@ -10,8 +10,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Vision {
 
     //arbitrary values of how much the camera sees
-    int camW = 1280;
-    int camH = 720;
+    int camW = 640;
+    int camH = 420;
 
     public Vision(HardwareMap hardwareMap) {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -29,6 +29,8 @@ public class Vision {
 
             }
         });
+
     }
+
 
 }
