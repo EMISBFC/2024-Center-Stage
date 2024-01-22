@@ -26,9 +26,14 @@ public class TeleOperated extends LinearOpMode {
     private ServoController servoController;
 
     public void runOpMode (){
-        chassis = new Chassis(hardwareMap);
-        elevator = new Elevator (dcMotorController);
-        arm = new Arm(dcMotorController, hardwareMap, servoController);
+        waitForStart();
+        while (opModeIsActive()) {
+            chassis = new Chassis(hardwareMap);
+            elevator = new Elevator (dcMotorController);
+            arm = new Arm(dcMotorController, hardwareMap, servoController);
+            arm.handleServo(gamepad1);
+        }
+
     }
 
 
