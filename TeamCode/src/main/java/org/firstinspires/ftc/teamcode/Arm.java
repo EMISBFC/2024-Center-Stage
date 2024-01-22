@@ -73,6 +73,7 @@ public class Arm  {
         rightGripper.setDirection(Servo.Direction.REVERSE);
         rightGripper.setPosition(0.1);
     }
+
     public void closeRight(){
         rightGripper.setDirection(Servo.Direction.REVERSE);
         rightGripper.setPosition(0.2);
