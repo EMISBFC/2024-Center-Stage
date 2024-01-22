@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorImpl;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.ServoController;
 import com.qualcomm.robotcore.hardware.ServoImpl;
@@ -45,18 +46,42 @@ public class Arm  {
         rightElevator = new Motor(hardwareMap, "rightElevator");
     }
 
-    public void openGripper(){ //assuming leftGripper & rightGripper pos = 0 is pixel sized and direction makes it move out
-        if(leftGripper.getPosition()<servoControl && rightGripper.getPosition()<servoControl){
-            leftGripper.setPosition(0.5);// 90degrees, because 1 = 180
-            rightGripper.setPosition(0.5);// 90degrees, because 1 = 180
+    public void handleServo(Gamepad gamepad)  {
+        if(gamepad.triangle){ // close left
+            leftGripper.setDirection(Servo.Direction.REVERSE);
+            leftGripper.setPosition(0.4);
+            //leftGripper.setDirection(Servo.Direction.REVERSE);
+        } if (gamepad.cross) { // open left
+            leftGripper.setDirection(Servo.Direction.REVERSE);
+            leftGripper.setPosition(0.1);
+
+        } if (gamepad.circle) { // close right
+            rightGripper.setDirection(Servo.Direction.REVERSE);
+            rightGripper.setPosition(0.2);
+
+        } if (gamepad.square) { //open right
+            rightGripper.setDirection(Servo.Direction.REVERSE);
+            rightGripper.setPosition(0.9);
+
         }
     }
-    public void closeGripper(){ //assuming leftGripper & rightGripper pos = 0 is pixel sized and direction makes it move out
-        if(leftGripper.getPosition()>servoControl && rightGripper.getPosition()>servoControl){
-            leftGripper.setPosition(0);// this should be pixel sized or a little bit less
-            rightGripper.setPosition(0);
-        }
+    public void openRight(){
+        rightGripper.setDirection(Servo.Direction.REVERSE);
+        rightGripper.setPosition(0.5);
     }
+    public void openLeft(){
+        rightGripper.setDirection(Servo.Direction.REVERSE);
+        rightGripper.setPosition(0.1);
+    }
+    public void closeRight(){
+        rightGripper.setDirection(Servo.Direction.REVERSE);
+        rightGripper.setPosition(0.2);
+    }
+    public void closeLeft(){
+        leftGripper.setDirection(Servo.Direction.REVERSE);
+        leftGripper.setPosition(0.9);
+    }
+
 
     public void goToBackboard() { // assume "0 degrees", is 0 from the left, so we want to get to 150 degrees
         double ticksDif = (150*ticksPerDeg) - (middleJoint.getCurrentPosition() % ticksperRev);
