@@ -31,7 +31,6 @@ public class Vision{
 
         camera.setPipeline(teamPropDetection);
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-
         {
             @Override
             public void onOpened()
