@@ -30,7 +30,6 @@ public class Vision{
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam1"), cameraMonitorViewId);        teamPropDetection = new TeamPropDetection();
 
         camera.setPipeline(teamPropDetection);
-
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
 
         {
