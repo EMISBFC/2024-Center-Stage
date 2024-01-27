@@ -44,7 +44,7 @@ import java.util.Objects;
 @Config
 @Autonomous(group = "drive")
 public class ManualFeedforwardTuner extends LinearOpMode {
-    public static double DISTANCE = 72; // in
+    public static double DISTANCE = 10; // in
 
     private FtcDashboard dashboard = FtcDashboard.getInstance();
 
@@ -138,9 +138,9 @@ public class ManualFeedforwardTuner extends LinearOpMode {
 
                     drive.setWeightedDrivePower(
                             new Pose2d(
-                                    -gamepad1.left_stick_y,
-                                    -gamepad1.left_stick_x,
-                                    -gamepad1.right_stick_x
+                                    -gamepad1.right_stick_y,
+                                    -gamepad1.right_stick_x,
+                                    -gamepad1.left_stick_x
                             )
                     );
                     break;
