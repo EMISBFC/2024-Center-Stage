@@ -59,8 +59,8 @@ import java.util.Locale;
  * In OnBot Java, use "Add File" to add this OpMode from the list of Samples.
  */
 
-@TeleOp(name = "Utility: Camera Frame Capture", group = "Utility")
-@Disabled
+@TeleOp(name = "Utility: Camera Frame Capture", group = "IterativeOpMode")
+
 public class UtilityCameraFrameCapture extends LinearOpMode
 {
     /*
@@ -75,7 +75,7 @@ public class UtilityCameraFrameCapture extends LinearOpMode
     principalPoint="319.495f, 242.502f"
     distortionCoefficients="-0.0449369, 1.17277, 0, 0, -3.63244, 0, 0, 0"
      */
-    final boolean USING_WEBCAM = false;
+    final boolean USING_WEBCAM = true;
     final BuiltinCameraDirection INTERNAL_CAM_DIR = BuiltinCameraDirection.BACK;
     final int RESOLUTION_WIDTH = 640;
     final int RESOLUTION_HEIGHT = 480;
@@ -93,7 +93,7 @@ public class UtilityCameraFrameCapture extends LinearOpMode
         if (USING_WEBCAM)
         {
             portal = new VisionPortal.Builder()
-                    .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
+                    .setCamera(hardwareMap.get(WebcamName.class, "Webcam1"))
                     .setCameraResolution(new Size(RESOLUTION_WIDTH, RESOLUTION_HEIGHT))
                     .build();
         }

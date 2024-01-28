@@ -29,8 +29,10 @@ public class TeamPropDetection extends OpenCvPipeline {
         original = input.clone();
 
         //change values when we have the camera to fit the lines
-        zone1 = input.submat(new Rect(60, 170, 10, 10));
-        zone2 = input.submat(new Rect(300, 170, 10, 10));
+        zone1 = input.submat(new Rect(0, 0, 213, 480));
+
+        zone2 = input.submat(new Rect(427, 0, 213, 480));
+
 
         //Averaging the colors in the zones
         avgColor1 = Core.mean(zone1);

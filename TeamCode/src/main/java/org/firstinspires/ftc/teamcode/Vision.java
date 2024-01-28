@@ -36,7 +36,7 @@ public class Vision{
             public void onOpened()
             {
                 camera.startStreaming(camW, camH, OpenCvCameraRotation.UPRIGHT);
-                FtcDashboard.getInstance().startCameraStream(camera, 0);
+                FtcDashboard.getInstance().startCameraStream(camera, 30);
             }
 
             @Override

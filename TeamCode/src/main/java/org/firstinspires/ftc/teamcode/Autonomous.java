@@ -8,13 +8,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous(group = "StateTest")
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(group = "IterativeOpmode")
 public class Autonomous extends LinearOpMode {
 
 
 
 
-    private Vision vision=null;
+    private Vision vision;
 
     @Override
     public void runOpMode() throws InterruptedException {

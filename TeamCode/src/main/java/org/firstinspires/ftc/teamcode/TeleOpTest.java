@@ -14,26 +14,31 @@ import com.qualcomm.robotcore.hardware.CRServo;
 public class TeleOpTest extends LinearOpMode {
 
     private GripperTest gripper;
+    private ElevatorTest elevator;
 
     private Chassis chassis;
+
     //double x, double y, double rx, double heading, double acc
 
     @Override
     public void runOpMode() {
-        gripper = new GripperTest(hardwareMap);
+//        gripper = new GripperTest(hardwareMap);
+//
+//        chassis = new Chassis(hardwareMap);
 
-        chassis = new Chassis(hardwareMap);
+        elevator = new ElevatorTest(hardwareMap);
 
         waitForStart();
         while (opModeIsActive()) {
-            double y = (gamepad1.right_stick_y);
-            double x = (-gamepad1.right_stick_x);
-            double rx = (-gamepad1.left_stick_x);
-            double acc = gamepad1.right_trigger;
-            gripper.handleServo(gamepad2);
+//            double y = (gamepad1.right_stick_y);
+//            double x = (-gamepad1.right_stick_x);
+//            double rx = (-gamepad1.left_stick_x);
+//            double acc = gamepad1.right_trigger;
+//            gripper.handleServo(gamepad2);
 
 
-            chassis.robotCentricDrive(x, y, rx, acc);
+//            chassis.robotCentricDrive(x, y, rx, acc);
+            elevator.handleMotors(gamepad1);
 
         }
     }
