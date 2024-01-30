@@ -50,24 +50,30 @@ public class AutoTest extends LinearOpMode {
                     .setCameraResolution(new Size(RESOLUTION_WIDTH, RESOLUTION_HEIGHT))
                     .build();*/
             vision = new Vision(hardwareMap);
-            SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+            zone = vision.elementDetection(telemetry);
+            telemetry.addData("Element Zone", zone);
+            telemetry.update();
+            /*SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
             Trajectory halftileForward = drive.trajectoryBuilder(new Pose2d())
                     .forward(12)
                     .build();
             Trajectory halftileRight = drive.trajectoryBuilder(new Pose2d())
                     .strafeRight(24)
-                    .build();
+                    .build();*/
             waitForStart();
             while(opModeIsActive()) {
                 //teamPropDetection.processFrame();
                 //zone = teamPropDetection.getZone();
 
-                zone = vision.elementDetection(telemetry);
+                if(zone==1){
 
+                } else if (zone==2) {
 
-                telemetry.addData("Element Zone", zone);
-                telemetry.update();
+                }
+                else {
+
+                }
             }
 
             //public void moveToBackboardFromBack()

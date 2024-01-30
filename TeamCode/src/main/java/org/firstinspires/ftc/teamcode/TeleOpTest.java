@@ -23,21 +23,21 @@ public class TeleOpTest extends LinearOpMode {
     @Override
     public void runOpMode() {
 //        gripper = new GripperTest(hardwareMap);
-//
-//        chassis = new Chassis(hardwareMap);
+
+        chassis = new Chassis(hardwareMap);
 
         elevator = new ElevatorTest(hardwareMap);
 
         waitForStart();
         while (opModeIsActive()) {
-//            double y = (gamepad1.right_stick_y);
-//            double x = (-gamepad1.right_stick_x);
-//            double rx = (-gamepad1.left_stick_x);
-//            double acc = gamepad1.right_trigger;
+            double y = (gamepad1.right_stick_y);
+            double x = (-gamepad1.right_stick_x);
+            double rx = (-gamepad1.left_stick_x);
+            double acc = gamepad1.right_trigger;
 //            gripper.handleServo(gamepad2);
 
 
-//            chassis.robotCentricDrive(x, y, rx, acc);
+            chassis.robotCentricDrive(x, y, rx, acc);
             elevator.handleMotors(gamepad1);
 
         }

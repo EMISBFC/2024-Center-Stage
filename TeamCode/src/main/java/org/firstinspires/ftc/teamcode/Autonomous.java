@@ -16,12 +16,19 @@ public class Autonomous extends LinearOpMode {
 
     private Vision vision;
 
+
+
     @Override
     public void runOpMode() throws InterruptedException {
-
-        waitForStart();
         vision = new Vision(hardwareMap);
-        int element_zone = vision.elementDetection(telemetry);
+        int elementZone = vision.elementDetection(telemetry);//1 if left, 2 if center, 3 if right
+        waitForStart();
+        while (opModeIsActive()){
+            if(elementZone==1){
+
+            }
+
+        }
 
 
 

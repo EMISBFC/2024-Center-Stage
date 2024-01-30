@@ -13,10 +13,13 @@ import org.openftc.easyopencv.OpenCvPipeline;
 public class TeamPropDetection extends OpenCvPipeline {
     Mat zone1;
     Mat zone2;
+    Mat zone3;
     Scalar avgColor1;
     Scalar avgColor2;
+    Scalar avgColor3;
     double difference1;
     double difference2;
+    double difference3;
     Scalar allianceColor =new Scalar(255, 0, 0, 1);//assume RED
     final int maxDifference = 190; //arbitrary number for now
 
@@ -29,24 +32,33 @@ public class TeamPropDetection extends OpenCvPipeline {
         original = input.clone();
 
         //change values when we have the camera to fit the lines
-        zone1 = input.submat(new Rect(0, 0, 213, 480));
-
-        zone2 = input.submat(new Rect(427, 0, 213, 480));
+        zone1 = input.submat(new Rect(0, 100, 64, 350));
+        zone2 = input.submat(new Rect(380, 100, 160, 380));
+        zone3 = input.submat(new Rect(576, 100, 64, 380));
 
 
         //Averaging the colors in the zones
         avgColor1 = Core.mean(zone1);
         avgColor2 = Core.mean(zone2);
-
+        avgColor3 = Core.mean(zone3);
 
         zone1.setTo(avgColor1);
         zone2.setTo(avgColor2);
-
+        zone3.setTo(avgColor3);
 
         difference1 = colorDifference(avgColor1, allianceColor);
         difference2 = colorDifference(avgColor2, allianceColor);
+        difference3 = colorDifference(avgColor3, allianceColor);
+        if ((difference1 < difference2) && (difference2 < difference3)) {
+            zone = 1;
+        } else if ((difference2 < difference3) && (difference2 < difference1)) {
+            zone = 2;
+        }
+        else{
+            zone = 3;
+        }
 
-        if ((difference1 > maxDifference) && (difference2 > maxDifference)) {
+        /*if ((difference1 > maxDifference) && (difference2 > maxDifference)) {
             zone = 3;
         } else {
 
@@ -56,7 +68,7 @@ public class TeamPropDetection extends OpenCvPipeline {
                 zone = 2;
             }
 
-        }
+        }*/
         return input;
     }
 
@@ -74,7 +86,7 @@ public class TeamPropDetection extends OpenCvPipeline {
 
         return Math.sqrt(Math.pow((r1 - r2), 2) + Math.pow((g1 - g2), 2) + Math.pow((b1 - b2), 2));
     }
-    //return 1 if left, 2 is right, 3 if center
+    //return 1 if left, 2 if center, 3 if right
     public int getZone(){
         return zone;
     }
