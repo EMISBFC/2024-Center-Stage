@@ -19,46 +19,54 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 @TeleOp
 public class PIDElevator extends OpMode {
     private PIDController controller;
+    private GripperTest gripperTest;
 
-    public static double p = 0, i = 0, d= 0;
-    public static double f = 0;
+    public static double p = 0.005, i = 0, d= 0.001;
+    public static double f = 0.2;
 
     public static int target;
 
+    public static int originalArmPos;
 
 
-    public static double ticks_in_degrees = (double) 700/180;
+
+    public static double ticks_in_degrees = (double) 360/(28*230*4*231);
 
     private DcMotorEx arm_motor;
 
     @Override
     public void init() {
+
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         arm_motor = hardwareMap.get(DcMotorEx.class, "arm_motor");
         controller = new PIDController(p, i, d);
-
+        originalArmPos = arm_motor.getCurrentPosition() ;
+        gripperTest = new GripperTest(hardwareMap);
 
     }
 
     @Override
     public void loop() {
+       // target = arm_motor.getCurrentPosition()+5;
+        arm_motor.setDirection(DcMotorSimple.Direction.REVERSE);
         controller.setPID(p, i, d);
-//        float target = -gamepad1.left_trigger * 100;
+        gripperTest.handleServo(gamepad1);
+        //float target = -gamepad1.left_trigger * 100;
         int armPos = arm_motor.getCurrentPosition();
-
         if (gamepad1.cross) {
-            arm_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+
             //arm_motor.setPower(0.1);
-            target = -500;
+
+           // target = originalArmPos+50;
+            target = originalArmPos+Math.abs((int)(originalArmPos*0.2));
         }
         if (gamepad1.triangle) {
-            arm_motor.setDirection(DcMotorSimple.Direction.FORWARD);
+
             //arm_motor.setPower(0.1);
-            target = -235;
+//            target = originalArmPos+3000;
+            target = originalArmPos+Math.abs(originalArmPos*10);
         }
-        if(gamepad1.square){
-            arm_motor.setPower(1);
-        }
+
 
 
 

@@ -8,9 +8,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.opencv.core.Scalar;
 
-@Autonomous(name = "Auto Test", group = "IterativeOpMode")//iterative maybe?
-public class AutoTestRedFar extends LinearOpMode {
+@Autonomous(name = "Auto Test Blue Far", group = "IterativeOpMode")//iterative maybe?
+public class AutoTestBlueFar extends LinearOpMode {
         /*
          * EDIT THESE PARAMETERS AS NEEDED
          */
@@ -36,7 +37,7 @@ public class AutoTestRedFar extends LinearOpMode {
                     .setCameraResolution(new Size(RESOLUTION_WIDTH, RESOLUTION_HEIGHT))
                     .build();*/
             vision = new Vision(hardwareMap);
-            zone = vision.elementDetection(telemetry);
+            zone = vision.elementDetection(telemetry, new Scalar(0,0,255,1));
             telemetry.addData("Element Zone", zone);
             telemetry.update();
             /*
@@ -52,19 +53,19 @@ public class AutoTestRedFar extends LinearOpMode {
             Pose2d postConeRedBackAlliance = new Pose2d(-36, -12, 0);
             Trajectory zone1 = drive.trajectoryBuilder(beggining)
                     .forward(20)
-                    .splineTo(new Vector2d((-36), -40), Math.toRadians(90))
+                    .splineTo(new Vector2d((-36), -40), Math.toRadians(-90))
                     .build();
             Trajectory zone2 = drive.trajectoryBuilder(beggining)
                     .forward(22)
                     .build();
             Trajectory zone3 = drive.trajectoryBuilder(beggining)
                     .forward(24)
-                    .splineTo(new Vector2d((-36), -36), Math.toRadians(-90))
+                    .splineTo(new Vector2d((-36), -36), Math.toRadians(90))
                     .build();
             Trajectory zone1ToCommon = drive.trajectoryBuilder(beggining)
                     .back(2)
-                    .splineTo(new Vector2d((-34), -40), Math.toRadians(-90))
-                    .strafeLeft(2)
+                    .splineTo(new Vector2d((-34), -40), Math.toRadians(90))
+                    .strafeRight(2)
                     .forward(28)
                     .build();
             Trajectory zone2ToCommon = drive.trajectoryBuilder(beggining)
@@ -72,19 +73,19 @@ public class AutoTestRedFar extends LinearOpMode {
                     .build();
             Trajectory zone3ToCommon = drive.trajectoryBuilder(beggining)
                     .back(2)
-                    .splineTo(new Vector2d((-36), -40), Math.toRadians(90))
-                    .strafeRight(2)
+                    .splineTo(new Vector2d((-36), -40), Math.toRadians(-90))
+                    .strafeLeft(2)
                     .forward(24)
                     .build();
 
             Trajectory commonToBackboard = drive.trajectoryBuilder(postConeRedBackAlliance)
-                    .splineTo(new Vector2d((-36), -12), Math.toRadians(-90))
+                    .splineTo(new Vector2d((-36), -12), Math.toRadians(90))
                     .forward(72)
-                    .strafeRight(24)
+                    .strafeLeft(24)
                     .forward(12)
                     .build();
             Trajectory park = drive.trajectoryBuilder(postConeRedBackAlliance)
-                    .strafeRight(24)
+                    .strafeLeft(24)
                     .splineTo(new Vector2d(48, -36), Math.toRadians(-90))
                     .back(24)
                     .build();

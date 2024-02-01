@@ -18,34 +18,41 @@ public class TeleOpTest extends LinearOpMode {
 //    private GripperTest gripper;
     private ElevatorTest elevator;
 
-//    private Chassis chassis;
+    private RevIMU imu;
+
+    private Chassis chassis;
 //
 //    private PIDElevator pidElevator;
 
-    //double x, double y, double rx, double heading, double acc
+//    double x, double y, double rx, double heading, double acc;
 
     @Override
 
     public void runOpMode() {
 //        gripper = new GripperTest(hardwareMap);
 
-//        chassis = new Chassis(hardwareMap);
+        imu = new RevIMU(hardwareMap);
+        imu.init();
 
-        elevator = new ElevatorTest(hardwareMap);
+        chassis = new Chassis(hardwareMap);
+
+//        elevator = new ElevatorTest(hardwareMap);
 
         waitForStart();
         while (opModeIsActive()) {
-//            double y = (gamepad1.right_stick_y);
-//            double x = (-gamepad1.right_stick_x);
-//            double rx = (-gamepad1.left_stick_x);
-//            double acc = gamepad1.right_trigger;
+            double y = (gamepad1.right_stick_y);
+            double x = (-gamepad1.right_stick_x);
+            double rx = (-gamepad1.left_stick_x);
+            double acc = gamepad1.right_trigger;
+            double heading = imu.getRotation2d().getDegrees();
 //            gripper.handleServo(gamepad2);
 
 
 
 
 //            chassis.robotCentricDrive(x, y, rx, acc);
-            elevator.handleMotors(gamepad1);
+            chassis.fieldCentricDrive(x, y, rx, heading, acc);
+//            elevator.handleMotors(gamepad1);
 
 //            pidElevator.init();
 //            pidElevator.loop();

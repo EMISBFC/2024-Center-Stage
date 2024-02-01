@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.opencv.core.Scalar;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -46,7 +47,7 @@ public class Vision{
             }
         });
     }
-        public int elementDetection(Telemetry telemetry) {
+        public int elementDetection(Telemetry telemetry, Scalar alliance) {
             zone = teamPropDetection.getZone();
             telemetry.addData("Element Zone", zone);
             telemetry.update();
