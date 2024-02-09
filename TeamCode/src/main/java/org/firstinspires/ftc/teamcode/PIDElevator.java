@@ -39,32 +39,35 @@ public class PIDElevator extends OpMode {
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         arm_motor = hardwareMap.get(DcMotorEx.class, "arm_motor");
-        controller = new PIDController(p, i, d);
         originalArmPos = arm_motor.getCurrentPosition() ;
+        controller = new PIDController(p, i, d);
+
         gripperTest = new GripperTest(hardwareMap);
 
     }
 
     @Override
     public void loop() {
+
        // target = arm_motor.getCurrentPosition()+5;
+
         arm_motor.setDirection(DcMotorSimple.Direction.REVERSE);
         controller.setPID(p, i, d);
-        gripperTest.handleServo(gamepad1);
+
         //float target = -gamepad1.left_trigger * 100;
         int armPos = arm_motor.getCurrentPosition();
-        if (gamepad1.cross) {
+        if (gamepad1.dpad_down) {
 
             //arm_motor.setPower(0.1);
 
-           // target = originalArmPos+50;
-            target = originalArmPos+Math.abs((int)(originalArmPos*0.2));
+            target = originalArmPos+50;
+//            target = originalArmPos+Math.abs((int)(originalArmPos*0.2));
         }
-        if (gamepad1.triangle) {
+        if (gamepad1.dpad_up) {
 
             //arm_motor.setPower(0.1);
-//            target = originalArmPos+3000;
-            target = originalArmPos+Math.abs(originalArmPos*10);
+            target = originalArmPos+3000;
+//            target = originalArmPos+Math.abs(originalArmPos*10);
         }
 
 
@@ -76,6 +79,7 @@ public class PIDElevator extends OpMode {
         double power = pid + ff;
 
         arm_motor.setPower(power);
+        gripperTest.handleServo(gamepad2);
 
         telemetry.addData("pos", armPos);
         telemetry.addData("target", target);

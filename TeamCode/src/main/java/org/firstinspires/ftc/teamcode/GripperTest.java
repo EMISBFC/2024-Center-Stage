@@ -18,10 +18,10 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
 public class GripperTest {
-    private int counterLeft=1;
-    private int counterRight=1;
     private Servo leftGripper;
     private Servo rightGripper;
+
+
 
     public GripperTest(HardwareMap hardwareMap){
         leftGripper = hardwareMap.servo.get("leftGripper");
@@ -30,27 +30,38 @@ public class GripperTest {
 
     public void handleServo(Gamepad gamepad)  {
 
-        if(gamepad.square){ // close left
-            if(counterLeft%2!=0){
-                leftGripper.setDirection(Servo.Direction.REVERSE);
-                leftGripper.setPosition(0.1);
-            }
-            else{
-                leftGripper.setDirection(Servo.Direction.REVERSE);
-                leftGripper.setPosition(0.4);
-            }
-            counterLeft++;
+        if(gamepad.triangle){ // close left
+                leftGripper.setDirection(Servo.Direction.FORWARD);
+                leftGripper.setPosition(0.95);
+
+
+            //leftGripper.setDirection(Servo.Direction.REVERSE);
+        } if (gamepad.cross) { // open left
+            leftGripper.setDirection(Servo.Direction.FORWARD);
+            leftGripper.setPosition(0.25);
 
         } if (gamepad.circle) { // close right
-            if (counterRight % 2 != 0) {
-                rightGripper.setDirection(Servo.Direction.REVERSE);
-                rightGripper.setPosition(0.9);
-            } else {
-                rightGripper.setDirection(Servo.Direction.REVERSE);
-                rightGripper.setPosition(0.2);
-            }
-            counterRight++;
+            rightGripper.setDirection(Servo.Direction.REVERSE);
+            rightGripper.setPosition(0.95);
+        } if (gamepad.square) { //open right
+            rightGripper.setDirection(Servo.Direction.REVERSE);
+            rightGripper.setPosition(0.25);
+
+        } else {
+//            leftGripper.setPosition(0);
+//            rightGripper.setPosition(0);
+//            leftGripper.setPosition(leftGripper.getPosition());
+//            rightGripper.setPosition(rightGripper.getPosition());
         }
 
+
+    }
+    public void openLeft(){
+        leftGripper.setDirection(Servo.Direction.FORWARD);
+        leftGripper.setPosition(0.25);
+    }
+    public void openRight(){
+        leftGripper.setDirection(Servo.Direction.REVERSE);
+        leftGripper.setPosition(0.25);
     }
 }
