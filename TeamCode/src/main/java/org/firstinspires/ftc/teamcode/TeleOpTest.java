@@ -30,7 +30,7 @@ public class TeleOpTest extends OpMode {
     //private Wrist wrist;
 
     public static double p = 0.005, i = 0, d= 0.001;
-    public static double f = 0.2;
+    public static double f = 0.22;
 
     public static int target;
 
@@ -97,8 +97,7 @@ public class TeleOpTest extends OpMode {
         arm_motor = hardwareMap.get(DcMotorEx.class, "arm_motor");
         //originalArmPos = arm_motor.getCurrentPosition() ;
         controller = new PIDController(p, i, d);
-        gripper.openLeft();
-        gripper.openRight();
+
 
     }
 
