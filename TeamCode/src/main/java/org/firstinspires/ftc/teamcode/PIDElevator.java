@@ -22,7 +22,7 @@ public class PIDElevator extends OpMode {
     private GripperTest gripperTest;
 
     public static double p = 0.005, i = 0, d= 0.001;
-    public static double f = 0.2;
+    public static double f = 0.22;
 
     public static int target;
 
@@ -56,17 +56,19 @@ public class PIDElevator extends OpMode {
 
         //float target = -gamepad1.left_trigger * 100;
         int armPos = arm_motor.getCurrentPosition();
+
         if (gamepad1.dpad_down) {
 
-            //arm_motor.setPower(0.1);
-
-            target = originalArmPos+50;
-//            target = originalArmPos+Math.abs((int)(originalArmPos*0.2));
+            for(int i=0;i<2000;i++) {
+                target = 2000 - i;
+            }
         }
         if (gamepad1.dpad_up) {
 
             //arm_motor.setPower(0.1);
-            target = originalArmPos+3000;
+            for(int i=originalArmPos;i<2000;i++) {
+                target = originalArmPos + i;
+            }
 //            target = originalArmPos+Math.abs(originalArmPos*10);
         }
 
@@ -76,7 +78,7 @@ public class PIDElevator extends OpMode {
         double pid = controller.calculate(armPos, target);
         double ff = Math.cos(Math.toRadians(target/ticks_in_degrees)) * f;
 
-        double power = pid + ff;
+        double power = 0.75*(pid + ff);
 
         arm_motor.setPower(power);
         gripperTest.handleServo(gamepad2);

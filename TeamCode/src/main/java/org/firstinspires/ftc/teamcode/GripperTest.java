@@ -32,20 +32,18 @@ public class GripperTest {
 
         if(gamepad.triangle){ // close left
                 leftGripper.setDirection(Servo.Direction.FORWARD);
-                leftGripper.setPosition(0.95);
-
-
+                leftGripper.setPosition(0.5);
             //leftGripper.setDirection(Servo.Direction.REVERSE);
         } if (gamepad.cross) { // open left
             leftGripper.setDirection(Servo.Direction.FORWARD);
-            leftGripper.setPosition(0.25);
+            leftGripper.setPosition(0.3);
 
         } if (gamepad.circle) { // close right
             rightGripper.setDirection(Servo.Direction.REVERSE);
-            rightGripper.setPosition(0.95);
+            rightGripper.setPosition(0.9);
         } if (gamepad.square) { //open right
             rightGripper.setDirection(Servo.Direction.REVERSE);
-            rightGripper.setPosition(0.25);
+            rightGripper.setPosition(0.75);
 
         } else {
 //            leftGripper.setPosition(0);
@@ -58,10 +56,10 @@ public class GripperTest {
     }
     public void openLeft(){
         leftGripper.setDirection(Servo.Direction.FORWARD);
-        leftGripper.setPosition(0.25);
+        leftGripper.setPosition(0.3);
     }
     public void openRight(){
         leftGripper.setDirection(Servo.Direction.REVERSE);
-        leftGripper.setPosition(0.25);
+        leftGripper.setPosition(0.75);
     }
 }

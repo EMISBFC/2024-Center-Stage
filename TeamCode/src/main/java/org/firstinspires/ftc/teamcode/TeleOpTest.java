@@ -27,8 +27,7 @@ public class TeleOpTest extends OpMode {
     private Chassis chassis;
 
     private PIDController controller;
-
-    private Wrist wrist;
+    //private Wrist wrist;
 
     public static double p = 0.005, i = 0, d= 0.001;
     public static double f = 0.2;
@@ -86,7 +85,7 @@ public class TeleOpTest extends OpMode {
     @Override
     public void init() {
         gripper = new GripperTest(hardwareMap);
-        wrist = new Wrist(hardwareMap);
+        //wrist = new Wrist(hardwareMap);
         elevator = new ElevatorTest(hardwareMap);
 
         imu = new RevIMU(hardwareMap);
@@ -95,7 +94,7 @@ public class TeleOpTest extends OpMode {
         chassis = new Chassis(hardwareMap);
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        //arm_motor = hardwareMap.get(DcMotorEx.class, "arm_motor");
+        arm_motor = hardwareMap.get(DcMotorEx.class, "arm_motor");
         //originalArmPos = arm_motor.getCurrentPosition() ;
         controller = new PIDController(p, i, d);
         gripper.openLeft();
@@ -112,8 +111,8 @@ public class TeleOpTest extends OpMode {
         double heading = imu.getRotation2d().getDegrees();
         gripper.handleServo(gamepad2);
         chassis.fieldCentricDrive(x, y, rx, heading, acc);
-        wrist.handleWristServo(gamepad2);
-        //elevator.handleMotors(gamepad2);
+        //wrist.handleWristServo(gamepad2);
+        elevator.handleMotors(gamepad2);
 
         //arm_motor.setDirection(DcMotorSimple.Direction.REVERSE);
         controller.setPID(p, i, d);

@@ -26,13 +26,13 @@ public class ElevatorTest {
     }
 
     public void handleMotors(Gamepad gamepad){
-        if(gamepad.triangle){
+        if(gamepad.left_bumper){
             motor1.setDirection(DcMotorSimple.Direction.REVERSE);
             motor1.setPower(0.8);
             motor2.setDirection(DcMotorSimple.Direction.FORWARD);
             motor2.setPower(0.8);
         }
-        if(gamepad.cross){
+        if(gamepad.right_bumper){
             motor1.setDirection(DcMotorSimple.Direction.FORWARD);
             motor1.setPower(0.8);
             motor2.setDirection(DcMotorSimple.Direction.REVERSE);
