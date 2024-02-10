@@ -11,8 +11,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 
 @Config
-@TeleOp
-public class TeleOpFullTest extends OpMode {
+@TeleOp(name="Teleop FULL")
+public class TeleOpFull extends OpMode {
     private ElevatorTest elevator;
 
     private RevIMU imu;
@@ -20,6 +20,8 @@ public class TeleOpFullTest extends OpMode {
     private Chassis chassis;
     private PIDController controller;
     private GripperTest gripper;
+
+    private Wrist wrist;
 
     public static double p = 0.005, i = 0, d= 0.001;
     public static double f = 0.22;
@@ -43,7 +45,7 @@ public class TeleOpFullTest extends OpMode {
         controller = new PIDController(p, i, d);
 
         gripper = new GripperTest(hardwareMap);
-        //wrist = new Wrist(hardwareMap);
+        wrist = new Wrist(hardwareMap);
         elevator = new ElevatorTest(hardwareMap);
 
         imu = new RevIMU(hardwareMap);
@@ -55,21 +57,30 @@ public class TeleOpFullTest extends OpMode {
         arm_motor = hardwareMap.get(DcMotorEx.class, "arm_motor");
         //originalArmPos = arm_motor.getCurrentPosition() ;
         controller = new PIDController(p, i, d);
-        double y = (gamepad1.right_stick_y);
-        double x = (-gamepad1.right_stick_x);
-        double rx = (-gamepad1.left_stick_x);
-        double acc = gamepad1.right_trigger;
-        double heading = imu.getRotation2d().getDegrees();
-        gripper.handleServo(gamepad2);
-        chassis.fieldCentricDrive(x, y, rx, heading, acc);
-        //wrist.handleWristServo(gamepad2);
-        elevator.handleMotors(gamepad2);
+
+        gripper.openRight();
+        gripper.openLeft();
+
 
 
     }
 
     @Override
     public void loop() {
+
+        double y = (gamepad1.right_stick_y);
+        double x = (-gamepad1.right_stick_x);
+        double rx = (-gamepad1.left_stick_x);
+        double acc = gamepad1.right_trigger;
+        double heading = imu.getRotation2d().getDegrees();
+        try {
+            gripper.handleServo(gamepad2);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        chassis.fieldCentricDrive(x, y, rx, heading, acc);
+        wrist.handleWristServo(gamepad2);
+        elevator.handleMotors(gamepad2);
 
        // target = arm_motor.getCurrentPosition()+5;
 
@@ -103,7 +114,11 @@ public class TeleOpFullTest extends OpMode {
         double power = 0.75*(pid + ff);
 
         arm_motor.setPower(power);
-        gripper.handleServo(gamepad2);
+        try {
+            gripper.handleServo(gamepad2);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         telemetry.addData("pos", armPos);
         telemetry.addData("target", target);

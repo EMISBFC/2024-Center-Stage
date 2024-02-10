@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -17,6 +18,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 @Config
 @TeleOp
+@Disabled
 public class PIDElevator extends OpMode {
     private PIDController controller;
     private GripperTest gripperTest;
@@ -81,7 +83,11 @@ public class PIDElevator extends OpMode {
         double power = 0.75*(pid + ff);
 
         arm_motor.setPower(power);
-        gripperTest.handleServo(gamepad2);
+        try {
+            gripperTest.handleServo(gamepad2);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         telemetry.addData("pos", armPos);
         telemetry.addData("target", target);

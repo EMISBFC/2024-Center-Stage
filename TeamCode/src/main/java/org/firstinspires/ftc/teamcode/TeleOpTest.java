@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -17,6 +18,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
 
 @TeleOp(name="Teleop TEST", group="Iterative Opmode")
+@Disabled
 public class TeleOpTest extends OpMode {
 
     private GripperTest gripper;
@@ -108,7 +110,11 @@ public class TeleOpTest extends OpMode {
         double rx = (-gamepad1.left_stick_x);
         double acc = gamepad1.right_trigger;
         double heading = imu.getRotation2d().getDegrees();
-        gripper.handleServo(gamepad2);
+        try {
+            gripper.handleServo(gamepad2);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         chassis.fieldCentricDrive(x, y, rx, heading, acc);
         //wrist.handleWristServo(gamepad2);
         elevator.handleMotors(gamepad2);
