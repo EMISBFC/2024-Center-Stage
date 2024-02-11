@@ -17,21 +17,96 @@ import com.qualcomm.robotcore.hardware.ServoImpl;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
+import java.util.concurrent.TimeUnit;
 public class GripperTest {
     private Servo leftGripper;
     private Servo rightGripper;
     private boolean leftOpen;
     private boolean rightOpen;
     private double twat;
+    String triState;
 
 
-
-    public GripperTest(HardwareMap hardwareMap){
+    public GripperTest(HardwareMap hardwareMap) {
         leftGripper = hardwareMap.servo.get("leftGripper");
         rightGripper = hardwareMap.servo.get("rightGripper");
     }
 
     public void handleServo(Gamepad gamepad) throws InterruptedException {
+
+        if(triState.equals("pressed") && gamepad.triangle){
+            triState = "unpressed";
+            leftGripper.setDirection(Servo.Direction.FORWARD);
+            leftGripper.setPosition(0.5);
+            Thread.sleep(50);
+        }
+        if(triState.equals("unpressed") && gamepad.triangle){
+            triState = "pressed";
+            leftGripper.setDirection(Servo.Direction.FORWARD);
+            leftGripper.setPosition(0.3);
+            Thread.sleep(50);
+
+        }
+
+//        if (gamepad.triangle) {
+//            switch ((int) (leftGripper.getPosition() * 10)) {
+//                case 3:
+//                    leftGripper.setPosition(0.5);
+//                    leftGripper.setDirection(Servo.Direction.FORWARD);
+//                    Thread.sleep(50);
+//                    break;
+//                case 5:
+//                    leftGripper.setPosition(0.3);
+//                    leftGripper.setDirection(Servo.Direction.FORWARD);
+//                    Thread.sleep(50);
+//                    break;
+//
+//
+//            }
+//        }
+
+
+
+//        if (!leftOpen && gamepad.triangle && !triState) {
+//            leftOpen = true;
+//            triState = true;
+//            leftGripper.setDirection(Servo.Direction.FORWARD);
+//            leftGripper.setPosition(0.3);
+//            Thread.sleep(50);
+//            //  TimeUnit.MILLISECONDS.sleep(200);
+//        }
+//
+//        if (leftOpen && gamepad.triangle && !triState) {
+//            leftOpen = false;
+//            triState = true;
+//            leftGripper.setDirection(Servo.Direction.FORWARD);
+//            leftGripper.setPosition(0.5);
+//            Thread.sleep(50);
+////            TimeUnit.MILLISECONDS.sleep(200);
+//        }
+//
+//        triState = false;
+//    }
+    }
+
+    public void openLeft(){
+        leftGripper.setDirection(Servo.Direction.FORWARD);
+        leftGripper.setPosition(0.3);
+        triState = "pressed";
+    }
+    public void openRight(){
+        rightGripper.setDirection(Servo.Direction.REVERSE);
+        twat = 0.75;
+        rightGripper.setPosition(twat);
+        rightOpen = true;
+    }
+}
+
+
+
+
+
+
 
 
 //        if(gamepad.triangle){ // close left
@@ -56,52 +131,4 @@ public class GripperTest {
 ////            rightGripper.setPosition(rightGripper.getPosition());
 //        }
 
-        if(gamepad.triangle){
-            if(gamepad.triangle && leftGripper.getPosition()==0.3 && leftOpen){
-                leftOpen = false;
-                leftGripper.setDirection(Servo.Direction.FORWARD);
-                leftGripper.setPosition(0.5);
-                Thread.sleep(500);
-            }
-            if(gamepad.triangle && leftGripper.getPosition()==0.5 && !leftOpen){
-                leftOpen = true;
-                leftGripper.setDirection(Servo.Direction.FORWARD);
-                leftGripper.setPosition(0.3);
-                Thread.sleep(500);
-            }
-
-            //leftGripper.setDirection(Servo.Direction.REVERSE);
-        }
-
-        if (gamepad.cross) {
-            if(gamepad.cross && rightGripper.getPosition()==0.75 && rightOpen){
-                rightOpen = false;
-                rightGripper.setDirection(Servo.Direction.REVERSE);
-                twat = 0.9;
-//                rightGripper.setPosition(0.9);
-//                Thread.sleep(100);
-            }
-            if(gamepad.cross && rightGripper.getPosition()==0.9 && !rightOpen){
-                rightOpen = true;
-                rightGripper.setDirection(Servo.Direction.REVERSE);
-                twat = 0.75;
-//                rightGripper.setPosition(0.75);
-//                Thread.sleep(100);
-
-            }
-            rightGripper.setPosition(twat);
-            Thread.sleep(100);
-        }
-    }
-    public void openLeft(){
-        leftGripper.setDirection(Servo.Direction.FORWARD);
-        leftGripper.setPosition(0.3);
-        leftOpen = true;
-    }
-    public void openRight(){
-        rightGripper.setDirection(Servo.Direction.REVERSE);
-        twat = 0.75;
-        rightGripper.setPosition(twat);
-        rightOpen = true;
-    }
-}
+// ?
