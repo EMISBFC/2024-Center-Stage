@@ -1,122 +1,95 @@
 package org.firstinspires.ftc.teamcode;
-
-import com.arcrobotics.ftclib.drivebase.MecanumDrive;
-import com.arcrobotics.ftclib.drivebase.RobotDrive;
-import com.arcrobotics.ftclib.geometry.Vector2d;
-import com.arcrobotics.ftclib.hardware.motors.Motor;
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.arcrobotics.ftclib.controller.PIDController;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorImpl;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.ServoController;
-import com.qualcomm.robotcore.hardware.ServoImpl;
-import com.qualcomm.robotcore.hardware.VoltageSensor;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.CRServo;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-public class Arm  {
-    private Servo leftGripper;
-    private Servo rightGripper;
-    private Servo handJoint;
-    private DcMotor middleJoint;
-    private Motor leftElevator;
-    private Motor rightElevator;
 
-    private double servoControl= 0.05;
-    private double ticksPerDeg = 21.94;
-    private int ticksperRev = 288;
+@Config
+@TeleOp
+@Disabled
+public class Arm extends OpMode {
+    private PIDController controller;
+    private GripperTest gripperTest;
 
-    private int setTickNumber=30;//fixed number of ticks that will allow the hand to
-    // take off from the ground so that we can align it to the rest of the arm before fully turning
-    public Arm(DcMotorController dcMotorController, HardwareMap hardwareMap, ServoController servoController){//need to change port number upon build
-        leftGripper = new ServoImpl(servoController, 1);
-        rightGripper = new ServoImpl(servoController, 1);
-        handJoint = new ServoImpl(servoController, 1);
-        middleJoint = new DcMotorImpl(dcMotorController, 2);
-        leftElevator = new Motor(hardwareMap, "leftElevator");
-        rightElevator = new Motor(hardwareMap, "rightElevator");
+    public static double p = 0.005, i = 0, d= 0.001;
+    public static double f = 0.22;
+
+    public static int target;
+
+    public static int originalArmPos;
+
+
+
+    public static double ticks_in_degrees = (double) 360/(28*230*4*231);
+
+    private DcMotorEx arm_motor;
+
+    @Override
+    public void init() {
+
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        arm_motor = hardwareMap.get(DcMotorEx.class, "arm_motor");
+        originalArmPos = arm_motor.getCurrentPosition() ;
+        controller = new PIDController(p, i, d);
+
+        gripperTest = new GripperTest(hardwareMap);
+
     }
 
-    public void handleServo(Gamepad gamepad)  {
-        if(gamepad.triangle){ // close left
-            leftGripper.setDirection(Servo.Direction.REVERSE);
-            leftGripper.setPosition(0.4);
-            //leftGripper.setDirection(Servo.Direction.REVERSE);
-        } if (gamepad.cross) { // open left
-            leftGripper.setDirection(Servo.Direction.REVERSE);
-            leftGripper.setPosition(0.1);
+    @Override
+    public void loop() {
 
-        } if (gamepad.circle) { // close right
-            rightGripper.setDirection(Servo.Direction.REVERSE);
-            rightGripper.setPosition(0.2);
+       // target = arm_motor.getCurrentPosition()+5;
 
-        } if (gamepad.square) { //open right
-            rightGripper.setDirection(Servo.Direction.REVERSE);
-            rightGripper.setPosition(0.9);
+        arm_motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        controller.setPID(p, i, d);
 
+        //float target = -gamepad1.left_trigger * 100;
+        int armPos = arm_motor.getCurrentPosition();
+
+        if (gamepad1.dpad_down) {
+
+            for(int i=0;i<2000;i++) {
+                target = 2000 - i;
+            }
         }
-    }
-    public void openRight(){
-        rightGripper.setDirection(Servo.Direction.REVERSE);
-        rightGripper.setPosition(0.9);
-    }
-    public void openLeft(){
-        rightGripper.setDirection(Servo.Direction.REVERSE);
-        rightGripper.setPosition(0.1);
-    }
+        if (gamepad1.dpad_up) {
 
-    public void closeRight(){
-        rightGripper.setDirection(Servo.Direction.REVERSE);
-        rightGripper.setPosition(0.2);
-    }
-    public void closeLeft(){
-        leftGripper.setDirection(Servo.Direction.REVERSE);
-        leftGripper.setPosition(0.4);
-    }
+            //arm_motor.setPower(0.1);
+            for(int i=originalArmPos;i<9000;i++) {
+                target = originalArmPos + i;
+            }
+//            target = originalArmPos+Math.abs(originalArmPos*10);
+        }
 
 
-    public void goToBackboard() { // assume "0 degrees", is 0 from the left, so we want to get to 150 degrees
-        double ticksDif = (150*ticksPerDeg) - (middleJoint.getCurrentPosition() % ticksperRev);
-
-        middleJoint.setTargetPosition(setTickNumber);
-        middleJoint.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        //assume that servo handJoint  pos = 0 is parallel to the ground
-
-        //now when you find out the angle at which the middle joint hits the ground you will
-        //know the angle to move to line handJoint up with the middleJoint, for now assume it's 45degrees or 0.25 of 180
-
-        handJoint.setPosition(0.25);
 
 
-        int backboardTarget = middleJoint.getCurrentPosition() + (int)ticksDif-setTickNumber;
-        middleJoint.setTargetPosition(backboardTarget);
-        middleJoint.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        double pid = controller.calculate(armPos, target);
+        double ff = Math.cos(Math.toRadians(target/ticks_in_degrees)) * f;
+
+        double power = 0.5*(pid + ff);
+
+        arm_motor.setPower(power);
+        try {
+            gripperTest.handleServo(gamepad2);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        telemetry.addData("pos", armPos);
+        telemetry.addData("target", target);
+        telemetry.update();
+
+
+
 
     }
-    public void goToGround() { // assume "0 degrees", is 0 from the left, so we want to get to 150 degrees
-        middleJoint.setDirection(DcMotor.Direction.REVERSE);//moving back
-
-        middleJoint.setTargetPosition(setTickNumber);//move away from backboard
-        middleJoint.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        handJoint.setPosition(0);//make parallel with ground
-
-        int ticksDif = middleJoint.getCurrentPosition()%288-setTickNumber;
-        middleJoint.setTargetPosition(ticksDif);
-        middleJoint.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-    }
-
 
 }
-

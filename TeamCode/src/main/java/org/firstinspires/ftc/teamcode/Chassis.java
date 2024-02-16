@@ -48,7 +48,7 @@ public class Chassis {
             mecanum.driveFieldCentric(x * 0.75, y * 0.75, rx * 0.75, heading);
         }
         else{
-            mecanum.driveFieldCentric(x * 0.5, y * 0.5, rx * 0.5, heading);
+            mecanum.driveFieldCentric(x * 1, y * 1, rx * 1, heading);
         }
     }
     public void robotCentricDrive(double x, double y, double rx, double acc){
@@ -56,7 +56,7 @@ public class Chassis {
             mecanum.driveRobotCentric(x*0.75, y*0.75, rx*0.75);
         }
         else{
-            mecanum.driveRobotCentric(x*0.5, y*0.5, rx*0.5);
+            mecanum.driveRobotCentric(x*1, y*1, rx*1);
         }
     }
 }

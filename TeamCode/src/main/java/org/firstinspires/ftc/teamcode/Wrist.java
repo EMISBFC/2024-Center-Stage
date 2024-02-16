@@ -24,14 +24,24 @@ public class Wrist {
     }
 
     public void handleWristServo(Gamepad gamepad){
-        if(gamepad.right_trigger>0){
+        if(gamepad.triangle){
             wristGripper.setDirection(Servo.Direction.FORWARD);
-            wristGripper.setPosition(0.9);
+            wristGripper.setPosition(0.1);
         }
-        if (gamepad.left_trigger>0){
+        if (gamepad.cross){
             wristGripper.setDirection(Servo.Direction.FORWARD);
-            wristGripper.setPosition(0.5);
+            wristGripper.setPosition(0.4);
         }
+    }
+
+    public void goToBackboardPos(){
+        wristGripper.setDirection(Servo.Direction.FORWARD);
+        wristGripper.setPosition(0.48);
+    }
+
+    public void goToFloorPosition(){
+        wristGripper.setDirection(Servo.Direction.FORWARD);
+        wristGripper.setPosition(0.65);
     }
 
 }

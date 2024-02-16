@@ -1,45 +1,95 @@
-
 package org.firstinspires.ftc.teamcode;
 
-import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
+
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.SequentialAction;
+
+import com.acmerobotics.roadrunner.Trajectory;
+import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
-import org.firstinspires.ftc.teamcode.Arm;
-import org.firstinspires.ftc.teamcode.Vision;
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.opencv.core.Scalar;
+import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
+import org.firstinspires.ftc.teamcode.roadrunner.tuning.TuningOpModes;
 
-@Autonomous(name = "AARedClose", group = "LinearOpMode")
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
+
+
+@Autonomous(name = "AARedClose", group = "Autonomous")
 public class AARedClose extends LinearOpMode {
-    private Servo rightGripper;
-    private Servo leftGripper;
+
+    public class AGripper {
+        private Servo leftGripper;
+        private Servo rightGripper;
+
+        public AGripper(HardwareMap hardwareMap){
+            leftGripper = hardwareMap.servo.get("leftGripper");
+            rightGripper = hardwareMap.servo.get("rightGripper");
+        }
+        public class OpenGripper implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                leftGripper.setDirection(Servo.Direction.FORWARD);
+                leftGripper.setPosition(0.3);
+                rightGripper.setDirection(Servo.Direction.REVERSE);
+                rightGripper.setPosition(0.75);
+                return false;
+            }
+
+        }
+        public Action openGripper() {
+            return new OpenGripper();
+        }
+
+
+
+    }
     @Override
-    public void runOpMode() {
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+    public void runOpMode() throws InterruptedException {
 
-        rightGripper = hardwareMap.servo.get("rightGripper");
-        leftGripper = hardwareMap.servo.get("leftGripper");
-        Trajectory forward = drive.trajectoryBuilder(new Pose2d(60, 15, Math.toRadians(0)))
-                .forward(75)
-                .build();
+        Pose2d beginPose = new Pose2d(7, -72, Math.PI/2);
+        AGripper gripper = new AGripper(hardwareMap);
 
+
+        MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
 
         waitForStart();
-        //while (opModeIsActive()) {
-            drive.setPoseEstimate(new Pose2d(60, 15, Math.toRadians(0)));
 
-            drive.followTrajectory(forward);
-            rightGripper.setDirection(Servo.Direction.REVERSE);
-            rightGripper.setPosition(0.95);
-            leftGripper.setDirection(Servo.Direction.FORWARD);
-            leftGripper.setPosition(0.95);
 
-            //open both grippers
-        //}
+        /*Actions.runBlocking(new SequentialAction(
+                drive.actionBuilder(beginPose)
+                        .splineTo(new Vector2d(7, -36), (Math.PI)/2).build(),
+                drive.actionBuilder(new Pose2d(7, -36, (Math.PI)/2))
+                        .splineTo(new Vector2d(7, -72), (Math.PI)/2).build(),
+                drive.actionBuilder(new Pose2d(7, -72, (Math.PI)/2))
+                        .splineTo(new Vector2d(60, -72), (Math.PI)/2).build()
+                //gripper.openGripper()
+                    )
+            );*/
+        Action  move;
+        Action  back;
+        Action  park;
+        move = drive.actionBuilder(beginPose)
+                .lineToY(-36)
+                .waitSeconds(2)
+                .lineToY(-72)
+                .strafeTo(new Vector2d(60, -72))
+                .build();
+
+        Actions.runBlocking(new SequentialAction(
+                        move
+                )
+
+                        //gripper.openGripper()
+
+        );
+
+
     }
 }

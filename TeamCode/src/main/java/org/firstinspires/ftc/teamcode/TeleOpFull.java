@@ -24,13 +24,14 @@ public class TeleOpFull extends OpMode {
     private Wrist wrist;
 
     public static double p = 0.005, i = 0, d= 0.001;
-    public static double f = 0.22;
+    public static double f = 0.225;
 
     public static int target;
 
-    public static int originalArmPos;
-
-
+    public static int initialArmPos = 2200;
+    private static int armPosFloor = 2350;
+    private static int armPosHang = 150;
+    private static int armPosBackdrop = -400;
 
     public static double ticks_in_degrees = (double) 360/(28*230*4*231);
 
@@ -41,7 +42,8 @@ public class TeleOpFull extends OpMode {
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         arm_motor = hardwareMap.get(DcMotorEx.class, "arm_motor");
-        originalArmPos = arm_motor.getCurrentPosition() ;
+        //originalArmPos = arm_motor.getCurrentPosition() ;
+        target = initialArmPos;
         controller = new PIDController(p, i, d);
 
         gripper = new GripperTest(hardwareMap);
@@ -61,6 +63,8 @@ public class TeleOpFull extends OpMode {
         gripper.openRight();
         gripper.openLeft();
 
+        wrist.goToFloorPosition();
+
 
 
     }
@@ -68,9 +72,9 @@ public class TeleOpFull extends OpMode {
     @Override
     public void loop() {
 
-        double y = (gamepad1.right_stick_y);
-        double x = (-gamepad1.right_stick_x);
-        double rx = (-gamepad1.left_stick_x);
+        double y = (gamepad1.left_stick_y);
+        double x = (-gamepad1.left_stick_x);
+        double rx = (-gamepad1.right_stick_x);
         double acc = gamepad1.right_trigger;
         double heading = imu.getRotation2d().getDegrees();
         try {
@@ -79,7 +83,8 @@ public class TeleOpFull extends OpMode {
             throw new RuntimeException(e);
         }
         chassis.fieldCentricDrive(x, y, rx, heading, acc);
-        wrist.handleWristServo(gamepad2);
+//        chassis.robotCentricDrive(x, y, rx, acc);
+//        wrist.handleWristServo(gamepad2);
         elevator.handleMotors(gamepad2);
 
        // target = arm_motor.getCurrentPosition()+5;
@@ -87,24 +92,48 @@ public class TeleOpFull extends OpMode {
         arm_motor.setDirection(DcMotorSimple.Direction.REVERSE);
         controller.setPID(p, i, d);
 
-        //float target = -gamepad1.left_trigger * 100;
+
         int armPos = arm_motor.getCurrentPosition();
 
-        if (gamepad1.dpad_down) {
+        if (gamepad2.dpad_down) {
 
-            for(int i=0;i<2000;i++) {
-                target = 2000 - i;
+            wrist.goToFloorPosition();
+            while (target < armPosFloor) {
+                target++;
             }
+//            for(int i=0;i<2000;i++) {
+//                target = initialArmPos -3200 + i;
+//            }
+
         }
-        if (gamepad1.dpad_up) {
+        if (gamepad2.right_bumper) {
+
+
+            while (target != armPosHang) {
+                if(target> armPosHang){
+                    target--;
+                }
+                else{
+                    target++;
+                }
+            }
+//            for(int i=0;i<2000;i++) {
+//                target = initialArmPos -3200 + i;
+//            }
+
+        }
+
+        if (gamepad2.dpad_up) {
 
             //arm_motor.setPower(0.1);
-            for(int i=originalArmPos;i<2000;i++) {
-                target = originalArmPos + i;
+            while (target > armPosBackdrop) {
+                target--;
+//                System.out.println(target);
             }
-//            target = originalArmPos+Math.abs(originalArmPos*10);
+//            for(int i=0;i<3700;i++) target = initialArmPos - i;
+            wrist.goToBackboardPos();
+////          target = originalArmPos+Math.abs(originalArmPos*10);
         }
-
 
 
 

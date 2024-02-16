@@ -9,7 +9,7 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvPipeline;
 
 
-//all of this code is written assuming we get red alliance, in the position furthest away from the backboard
+//all of this code is written assuming we get red alliance
 public class TeamPropDetection extends OpenCvPipeline {
     Mat zone1;
     Mat zone2;
