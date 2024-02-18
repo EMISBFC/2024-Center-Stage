@@ -38,7 +38,7 @@ public class ElevatorTest {
             motor2.setDirection(DcMotorSimple.Direction.REVERSE);
             motor2.setPower(gamepad.right_trigger);
         }
-        else{
+        else if (gamepad.left_trigger<0.3 && gamepad.right_trigger<0.3){
             motor1.setPower(0);
             motor2.setPower(0);
         }
