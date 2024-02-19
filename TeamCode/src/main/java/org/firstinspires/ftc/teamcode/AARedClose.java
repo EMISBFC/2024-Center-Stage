@@ -1,12 +1,12 @@
 package org.firstinspires.ftc.teamcode;
-
+//NOTE TO SELF: STRAFE IN THE X AXIS MOVES HALF THAN YOU'D EXPECT SO J PUT DOUBLE THE DISTANCE :)
 
 import androidx.annotation.NonNull;
 
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
-
-import com.acmerobotics.roadrunner.Trajectory;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -15,15 +15,29 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
-import org.firstinspires.ftc.teamcode.roadrunner.tuning.TuningOpModes;
-
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.acmerobotics.roadrunner.Action;
+import org.opencv.core.Scalar;
 
 
 @Autonomous(name = "AARedClose", group = "Autonomous")
 public class AARedClose extends LinearOpMode {
+    private class AWrist{
+        private Servo wristGripper;
+        public AWrist(HardwareMap hardwareMap){
+            wristGripper = hardwareMap.servo.get("wrist_gripper");
+        }
+        public class ToGround implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                wristGripper.setDirection(Servo.Direction.FORWARD);
+                wristGripper.setPosition(0.65);
+                return false;
+            }
 
+        }
+        public Action toGround(){
+            return new ToGround();
+        }
+    }
     public class AGripper {
         private Servo leftGripper;
         private Servo rightGripper;
@@ -32,63 +46,158 @@ public class AARedClose extends LinearOpMode {
             leftGripper = hardwareMap.servo.get("leftGripper");
             rightGripper = hardwareMap.servo.get("rightGripper");
         }
-        public class OpenGripper implements Action {
+        public class OpenLeftGripper implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 leftGripper.setDirection(Servo.Direction.FORWARD);
                 leftGripper.setPosition(0.3);
+                return false;
+            }
+
+        }
+        public class CloseLeftGripper implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                leftGripper.setDirection(Servo.Direction.FORWARD);
+                leftGripper.setPosition(0.1);
+                return false;
+            }
+
+        }
+        public class OpenRightGripper implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
                 rightGripper.setDirection(Servo.Direction.REVERSE);
                 rightGripper.setPosition(0.75);
                 return false;
             }
 
         }
-        public Action openGripper() {
-            return new OpenGripper();
+        public class CloseRightGripper implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                rightGripper.setDirection(Servo.Direction.REVERSE);
+                rightGripper.setPosition(0.05);
+                return false;
+            }
+
+        }
+        public Action openLeftGripper() {
+            return new OpenLeftGripper();
+        }
+        public Action closeRightGripper() {
+            return new CloseRightGripper();
+        }
+        public Action openRightGripper() {
+            return new OpenRightGripper();
+        }
+        public Action closeLeftGripper() {
+            return new CloseLeftGripper();
         }
 
 
 
     }
+
     @Override
     public void runOpMode() throws InterruptedException {
+        Pose2d beginPose = new Pose2d(-30, -72, (Math.PI)/2);
 
-        Pose2d beginPose = new Pose2d(7, -72, Math.PI/2);
-        AGripper gripper = new AGripper(hardwareMap);
+            Vision vision = new Vision(hardwareMap);
+            AGripper gripper = new AGripper(hardwareMap);
+            MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
+            AWrist wrist = new AWrist(hardwareMap);
+
+            waitForStart();
 
 
-        MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
+        Action first;
+        Action second;
+        int zone = vision.elementDetection(telemetry,new Scalar(255, 0, 0, 1));
 
-        waitForStart();
 
 
-        /*Actions.runBlocking(new SequentialAction(
-                drive.actionBuilder(beginPose)
-                        .splineTo(new Vector2d(7, -36), (Math.PI)/2).build(),
-                drive.actionBuilder(new Pose2d(7, -36, (Math.PI)/2))
-                        .splineTo(new Vector2d(7, -72), (Math.PI)/2).build(),
-                drive.actionBuilder(new Pose2d(7, -72, (Math.PI)/2))
-                        .splineTo(new Vector2d(60, -72), (Math.PI)/2).build()
-                //gripper.openGripper()
-                    )
-            );*/
-        Action  move;
-        Action  back;
-        Action  park;
-        move = drive.actionBuilder(beginPose)
-                .lineToY(-36)
-                .waitSeconds(2)
-                .lineToY(-72)
-                .strafeTo(new Vector2d(60, -72))
+        Action drop1 = drive.actionBuilder(beginPose)
+                .strafeTo(new Vector2d(-50,-72))
+                .waitSeconds(0.2)
+                .lineToY(-40)
+                .waitSeconds(0.2)
+                .build();
+        Action drop1_2 = drive.actionBuilder(drive.pose)
+                .waitSeconds(0.4)
+                .lineToY(-71.5)
+                .waitSeconds(0.2)
+                .strafeTo(new Vector2d(125,-71.5))
+                .build();
+        Action drop2 = drive.actionBuilder(beginPose)
+                .lineToY(-22)
+                .waitSeconds(0.2)
+                .build();
+        Action drop2_2 = drive.actionBuilder(drive.pose)
+                .waitSeconds(0.4)
+                .lineToY(-71.5)
+                .waitSeconds(0.2)
+                .strafeTo(new Vector2d(125,-71.5))
+                .build();
+        Action drop3 = drive.actionBuilder(beginPose)
+                .strafeTo(new Vector2d(5,-72))
+                .waitSeconds(0.2)
+                .lineToY(-40)
+                .build();
+        Action drop3_2 = drive.actionBuilder(drive.pose)
+                .waitSeconds(0.4)
+                .lineToY(-71.5)
+                .waitSeconds(0.2)
+                .strafeTo(new Vector2d(125,-71.5))
+                .build();
+        Action park = drive.actionBuilder(drive.pose)
+                .waitSeconds(0.4)
+                .lineToY(-70)
+                .waitSeconds(0.2)
+                .lineToY(-71.5)
                 .build();
 
+
+
+        if (zone == 3) {
+            first = drop3;
+        } else if (zone == 2) {
+            first = drop2;
+        } else {
+            first = drop1;
+        }
+
+        if (zone == 3) {
+            second = drop3_2;
+        } else if (zone == 2) {
+            second = drop2_2;
+        } else {
+            second = drop1_2;
+        }
+
         Actions.runBlocking(new SequentialAction(
-                        move
+                        gripper.closeLeftGripper(),
+                        gripper.closeRightGripper(),
+                        wrist.toGround(),
+                        first,
+                        gripper.openRightGripper(),
+                        second,
+                        gripper.openLeftGripper(),
+                        park
                 )
-
-                        //gripper.openGripper()
-
         );
+
+
+            //magic vision
+            /*Actions.runBlocking(
+
+            Actions.runBlocking(
+                    drive.actionBuilder(beginPose)
+                            .splineTo(new Vector2d(60, -72), 0)
+                            .build());
+
+
+                            */
 
 
     }

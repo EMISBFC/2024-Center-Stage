@@ -36,7 +36,7 @@ public class Wrist {
 
     public void goToBackboardPos(){
         wristGripper.setDirection(Servo.Direction.FORWARD);
-        wristGripper.setPosition(0.48);
+        wristGripper.setPosition(0.30);
     }
 
     public void goToFloorPosition(){

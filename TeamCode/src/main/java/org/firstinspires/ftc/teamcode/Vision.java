@@ -47,7 +47,9 @@ public class Vision{
             }
         });
     }
+
         public int elementDetection(Telemetry telemetry, Scalar alliance) {
+            teamPropDetection.setAlliance(alliance);
             zone = teamPropDetection.getZone();
             telemetry.addData("Element Zone", zone);
             telemetry.update();

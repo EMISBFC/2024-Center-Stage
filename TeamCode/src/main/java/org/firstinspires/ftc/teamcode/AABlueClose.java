@@ -12,6 +12,7 @@ import com.acmerobotics.roadrunner.TimeTrajectory;
 import com.acmerobotics.roadrunner.Trajectory;
 
 import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.VelConstraint;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.acmerobotics.roadrunner.ConstantTrajectoryBuilder;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -26,6 +27,36 @@ import org.opencv.core.Scalar;
 
 @Autonomous(name = "AABlueClose", group = "Autonomous")
 public class AABlueClose extends LinearOpMode {
+    private class AWrist{
+        private Servo wristGripper;
+        public AWrist(HardwareMap hardwareMap){
+            wristGripper = hardwareMap.servo.get("wrist_gripper");
+        }
+        public class ToGround implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                wristGripper.setDirection(Servo.Direction.FORWARD);
+                wristGripper.setPosition(0.65);
+                return false;
+            }
+
+        }
+        public class ToUp implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                wristGripper.setDirection(Servo.Direction.FORWARD);
+                wristGripper.setPosition(0.8);
+                return false;
+            }
+
+        }
+        public Action toGround(){
+            return new ToGround();
+        }
+        public Action toUp(){
+            return new ToUp();
+        }
+    }
     public class AGripper {
         private Servo leftGripper;
         private Servo rightGripper;
@@ -43,6 +74,15 @@ public class AABlueClose extends LinearOpMode {
             }
 
         }
+        public class CloseLeftGripper implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                leftGripper.setDirection(Servo.Direction.FORWARD);
+                leftGripper.setPosition(0.1);
+                return false;
+            }
+
+        }
         public class OpenRightGripper implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
@@ -52,11 +92,26 @@ public class AABlueClose extends LinearOpMode {
             }
 
         }
+        public class CloseRightGripper implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                rightGripper.setDirection(Servo.Direction.REVERSE);
+                rightGripper.setPosition(0.05);
+                return false;
+            }
+
+        }
         public Action openLeftGripper() {
             return new OpenLeftGripper();
         }
+        public Action closeRightGripper() {
+            return new CloseRightGripper();
+        }
         public Action openRightGripper() {
             return new OpenRightGripper();
+        }
+        public Action closeLeftGripper() {
+            return new CloseLeftGripper();
         }
 
 
@@ -70,52 +125,63 @@ public class AABlueClose extends LinearOpMode {
             Vision vision = new Vision(hardwareMap);
             AGripper gripper = new AGripper(hardwareMap);
             MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
+            AWrist wrist = new AWrist(hardwareMap);
 
             waitForStart();
 
 
         Action first;
         Action second;
-        Action  park;
         int zone = vision.elementDetection(telemetry,new Scalar(255, 0, 0, 1));
 
 
 
         Action drop1 = drive.actionBuilder(beginPose)
-                .lineToY(40)
+                .strafeTo(new Vector2d(15,72))
                 .waitSeconds(0.2)
-                .turn((Math.PI)/2)
+                .lineToY(27)
                 .waitSeconds(0.2)
                 .build();
         Action drop1_2 = drive.actionBuilder(drive.pose)
-                .turn((3*Math.PI)/2)
+                .waitSeconds(0.4)
+                .lineToY(71.5)
                 .waitSeconds(0.2)
-                .setTangent((3*(Math.PI))/2)
-                .lineToY(72)
+                .strafeTo(new Vector2d(110,71.5))
                 .build();
         Action drop2 = drive.actionBuilder(beginPose)
-                .lineToY(20)
+                .strafeTo(new Vector2d(-7,72))
+                .waitSeconds(0.2)
+                .lineToY(14)
                 .waitSeconds(0.2)
                 .build();
         Action drop2_2 = drive.actionBuilder(drive.pose)
-                .lineToY(72)
+                .waitSeconds(0.4)
+                .lineToY(20)
+                .waitSeconds(0.1)
+                .lineToY(30)
+                .waitSeconds(0.1)
+                .lineToY(40)
+                .waitSeconds(0.1)
+                .lineToY(50)
+                .waitSeconds(0.1)
+                .lineToY(71.5)
+                .waitSeconds(0.2)
+                .strafeTo(new Vector2d(110,71.5))
                 .build();
         Action drop3 = drive.actionBuilder(beginPose)
-                .lineToY(40)
+                .strafeTo(new Vector2d(-35,72))
                 .waitSeconds(0.2)
-                .turn(-(Math.PI)/2)
-                .waitSeconds(0.2)
+                .lineToY(27)
                 .build();
         Action drop3_2 = drive.actionBuilder(drive.pose)
-                .turn((Math.PI)/2)
+                .waitSeconds(0.4)
+                .lineToY(71.5)
                 .waitSeconds(0.2)
-                .setTangent((3*(Math.PI))/2)
-                .lineToY(72)
+                .strafeTo(new Vector2d(115,71.5))
                 .build();
 
-        park = drive.actionBuilder(beginPose)
-                .strafeTo(new Vector2d(60,72))
-                .build();
+
+
 
         if (zone == 3) {
             first = drop3;
@@ -134,15 +200,15 @@ public class AABlueClose extends LinearOpMode {
         }
 
         Actions.runBlocking(new SequentialAction(
-                        drop1,
+                        gripper.closeLeftGripper(),
+                        gripper.closeRightGripper(),
+                        wrist.toGround(),
+                        first,
+                        gripper.openRightGripper(),
+                        second,
                         gripper.openLeftGripper(),
-                        drop1_2,
-                        park,
-                        gripper.openRightGripper()
+                        wrist.toUp()
                 )
-
-                //gripper.openGripper()
-
         );
 
 

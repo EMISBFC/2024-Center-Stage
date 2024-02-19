@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.drivebase.RobotDrive;
 import com.arcrobotics.ftclib.geometry.Vector2d;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -20,6 +21,7 @@ public class Chassis {
     private Motor fr;
     private Motor bl;
     private Motor br;
+
     MecanumDrive mecanum;
     public Chassis(HardwareMap hardwareMap){
 //		fl = hardwareMap.get(DcMotorEx.class, "fl");
@@ -43,6 +45,9 @@ public class Chassis {
         mecanum = new MecanumDrive(fl, fr, bl, br);
 
     }
+
+
+
     public void fieldCentricDrive(double x, double y, double rx, double heading, double acc){
         if(acc>1) {
             mecanum.driveFieldCentric(x * 0.75, y * 0.75, rx * 0.75, heading);

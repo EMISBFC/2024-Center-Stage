@@ -31,7 +31,7 @@ public class TeleOpFull extends OpMode {
     public static int initialArmPos = 2200;
     private static int armPosFloor = 2350;
     private static int armPosHang = 150;
-    private static int armPosBackdrop = -400;
+    private static int armPosBackdrop = -800;
 
     public static double ticks_in_degrees = (double) 360/(28*230*4*231);
 

@@ -22,56 +22,49 @@ public class GripperTest {
 
     public void handleServo(Gamepad gamepad) throws InterruptedException {
 
-        if(gamepad.square && !squareLock && leftOpen){ // end me , ty u/4106Thumbs
+        if(gamepad.circle && !circleLock && leftOpen){ // end me , ty u/4106Thumbs
             leftGripper.setDirection(Servo.Direction.FORWARD);
-            leftGripper.setPosition(0.5);
-            squareLock = true;
+            leftGripper.setPosition(0.4);
+            circleLock = true;
             leftOpen = false;
-
         }
-        else if(gamepad.square && !squareLock && !leftOpen){
+        else if(gamepad.circle && !circleLock && !leftOpen){
             leftGripper.setDirection(Servo.Direction.FORWARD);
-            leftGripper.setPosition(0.3);
-            squareLock = true;
+            leftGripper.setPosition(0.175);
+            circleLock = true;
             leftOpen = true;
-
-        }
-        else if(!gamepad.square && squareLock) squareLock = false;
-
-
-        if(gamepad.circle && !circleLock && rightOpen){ // end me , ty u/4106Thumbs
-            rightGripper.setDirection(Servo.Direction.REVERSE);
-            rightGripper.setPosition(0.9);
-            circleLock = true;
-            rightOpen = false;
-
-        }
-        else if(gamepad.circle && !circleLock && !rightOpen){
-            rightGripper.setDirection(Servo.Direction.REVERSE);
-            rightGripper.setPosition(0.75);
-            circleLock = true;
-            rightOpen = true;
-
         }
         else if(!gamepad.circle && circleLock) circleLock = false;
 
+        if(gamepad.square && !squareLock && rightOpen){ // end me , ty u/4106Thumbs
+            rightGripper.setDirection(Servo.Direction.REVERSE);
+            rightGripper.setPosition(0.5);
+            squareLock = true;
+            rightOpen = false;
+        }
+        else if(gamepad.square && !squareLock && !rightOpen){
+            rightGripper.setDirection(Servo.Direction.REVERSE);
+            rightGripper.setPosition(0.275);
+            squareLock = true;
+            rightOpen = true;
+        }
+        else if(!gamepad.square && squareLock) squareLock = false;
+
         if (gamepad.triangle) {
             rightGripper.setDirection(Servo.Direction.REVERSE);
-            rightGripper.setPosition(0.75);
+            rightGripper.setPosition(0.275);
             rightOpen = true;
             leftGripper.setDirection(Servo.Direction.FORWARD);
-            leftGripper.setPosition(0.3);
+            leftGripper.setPosition(0.175);
             leftOpen = true;
         }
-
         if(gamepad.cross){
             rightGripper.setDirection(Servo.Direction.REVERSE);
-            rightGripper.setPosition(0.9);
+            rightGripper.setPosition(0.5);
             rightOpen = false;
             leftGripper.setDirection(Servo.Direction.FORWARD);
-            leftGripper.setPosition(0.5);
+            leftGripper.setPosition(0.4);
             leftOpen = false;
-
         }
     }
     public void openLeft(){
