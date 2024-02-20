@@ -134,7 +134,7 @@ The readme.md file located in the [/TeamCode/src/main/java/org/firstinspires/ftc
   TensorFlow Object Detection can be opened in the Blocks editor, but running them will not work.
 
 ### New features
-* Adds new `VisionPortal` API for computer vision
+* Adds new `VisionPortal` API for computer visionRedClose
     * **This API may be subject to change for final kickoff release!**
     * Several new samples added.
     * Adds support for detecting AprilTags.
@@ -506,7 +506,7 @@ This is a bug fix only release to address the following four issues.
 
 ### New features
 * Includes TensorFlow inference model and sample OpModes to detect Ultimate Goal Starter Stacks (four rings vs single ring stack).
-* Includes Vuforia Ultimate Goal vision targets and sample OpModes.
+* Includes Vuforia Ultimate Goal visionRedClose targets and sample OpModes.
 * Introduces a digital zoom feature for TensorFlow object detection (to detect objects more accurately at greater distances).
 * Adds configuration entry for the REV UltraPlanetary HD Hex motor
 
@@ -1229,7 +1229,7 @@ Changes include:
   * Support for Modern Robotics Range Sensor.
   * Revise device names for Pushbot templates to match the names used in Pushbot guide.
   * Fixed bug so that IrSeekerSensorV3 device is accessible as IrSeekerSensor in hardwareMap.
-  * Modified computer vision code to require an individual Vuforia license (per legal requirement from PTC).
+  * Modified computer visionRedClose code to require an individual Vuforia license (per legal requirement from PTC).
   * Minor fixes.
   * Blockly enhancements:
      - Support for Voltage Sensor.
@@ -1274,7 +1274,7 @@ Changes include:
  * Prototype Blockly Programming Mode has been added to FTC Robot Controller.  Users can place the Robot Controller into this mode, and then use a device (such as a laptop) that has a Javascript enabled browser to write Blockly-based OpModes directly onto the Robot Controller.
  * Users can now configure the robot remotely through the FTC Driver Station app.
  * Android Studio project supports Android Studio 2.1.x and compile SDK Version 23 (Marshmallow).
- * Vuforia Computer Vision SDK integrated into FTC SDK.  Users can use sample vision targets to get localization information on a standard FTC field.
+ * Vuforia Computer Vision SDK integrated into FTC SDK.  Users can use sample visionRedClose targets to get localization information on a standard FTC field.
  * Project structure has been reorganized so that there is now a TeamCode package that users can use to place their local/custom OpModes into this package.
  * Inspection function has been integrated into the FTC Robot Controller and Driver Station Apps (Thanks Team HazMat… 9277 & 10650!).
  * Audio cues have been incorporated into FTC SDK.

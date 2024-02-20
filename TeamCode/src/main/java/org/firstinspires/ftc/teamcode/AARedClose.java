@@ -7,6 +7,7 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
+
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -34,8 +35,20 @@ public class AARedClose extends LinearOpMode {
             }
 
         }
+        public class ToUp implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                wristGripper.setDirection(Servo.Direction.FORWARD);
+                wristGripper.setPosition(0.8);
+                return false;
+            }
+
+        }
         public Action toGround(){
             return new ToGround();
+        }
+        public Action toUp(){
+            return new ToUp();
         }
     }
     public class AGripper {
@@ -50,7 +63,7 @@ public class AARedClose extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 leftGripper.setDirection(Servo.Direction.FORWARD);
-                leftGripper.setPosition(0.3);
+                leftGripper.setPosition(0.4);
                 return false;
             }
 
@@ -59,7 +72,7 @@ public class AARedClose extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 leftGripper.setDirection(Servo.Direction.FORWARD);
-                leftGripper.setPosition(0.1);
+                leftGripper.setPosition(0.175);
                 return false;
             }
 
@@ -68,7 +81,7 @@ public class AARedClose extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 rightGripper.setDirection(Servo.Direction.REVERSE);
-                rightGripper.setPosition(0.75);
+                rightGripper.setPosition(0.5);
                 return false;
             }
 
@@ -76,12 +89,14 @@ public class AARedClose extends LinearOpMode {
         public class CloseRightGripper implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
+
                 rightGripper.setDirection(Servo.Direction.REVERSE);
-                rightGripper.setPosition(0.05);
+                rightGripper.setPosition(0.275);
                 return false;
             }
 
         }
+
         public Action openLeftGripper() {
             return new OpenLeftGripper();
         }
@@ -101,61 +116,78 @@ public class AARedClose extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Pose2d beginPose = new Pose2d(-30, -72, (Math.PI)/2);
+        Pose2d beginPose = new Pose2d(0, -72, (Math.PI)/2);
 
-            Vision vision = new Vision(hardwareMap);
-            AGripper gripper = new AGripper(hardwareMap);
-            MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
-            AWrist wrist = new AWrist(hardwareMap);
+        VisionRedClose visionRedClose = new VisionRedClose(hardwareMap);
+        AGripper gripper = new AGripper(hardwareMap);
+        MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
+        AWrist wrist = new AWrist(hardwareMap);
 
-            waitForStart();
+        waitForStart();
 
 
         Action first;
         Action second;
-        int zone = vision.elementDetection(telemetry,new Scalar(255, 0, 0, 1));
+        int zone = visionRedClose.elementDetection(telemetry,new Scalar(255, 0, 0, 1));
 
 
 
         Action drop1 = drive.actionBuilder(beginPose)
-                .strafeTo(new Vector2d(-50,-72))
+                .strafeTo(new Vector2d(7,-72))
                 .waitSeconds(0.2)
-                .lineToY(-40)
+                .lineToY(-19)
+                .waitSeconds(0.2)
+                .strafeTo(new Vector2d(-15,-19))
                 .waitSeconds(0.2)
                 .build();
-        Action drop1_2 = drive.actionBuilder(drive.pose)
+        Action drop1_2 = drive.actionBuilder(new Pose2d(-15,-20,(Math.PI)/2))
                 .waitSeconds(0.4)
+                .lineToY(-23)
+                .waitSeconds(0.2)
+                .strafeTo(new Vector2d(7,-23))
+                .waitSeconds(0.2)
                 .lineToY(-71.5)
                 .waitSeconds(0.2)
-                .strafeTo(new Vector2d(125,-71.5))
+                .strafeTo(new Vector2d(110,-71.5))
                 .build();
         Action drop2 = drive.actionBuilder(beginPose)
-                .lineToY(-22)
+                .strafeTo(new Vector2d(7,-72))
+                .waitSeconds(0.2)
+                .lineToY(-7)
                 .waitSeconds(0.2)
                 .build();
-        Action drop2_2 = drive.actionBuilder(drive.pose)
+        Action drop2_2 = drive.actionBuilder(new Pose2d(-7,-7,(Math.PI)/2))
                 .waitSeconds(0.4)
+                /*.lineToY(20)
+                .waitSeconds(0.1)
+                .lineToY(30)
+                .waitSeconds(0.1)
+                .lineToY(40)
+                .waitSeconds(0.1)
+                .lineToY(50)
+                .waitSeconds(0.1)
+                .lineToY(71.5)
+                .waitSeconds(0.2)*/
+
                 .lineToY(-71.5)
-                .waitSeconds(0.2)
-                .strafeTo(new Vector2d(125,-71.5))
+                .strafeTo(new Vector2d(110,-71.5))
                 .build();
         Action drop3 = drive.actionBuilder(beginPose)
-                .strafeTo(new Vector2d(5,-72))
+                .lineToY(-20)
                 .waitSeconds(0.2)
-                .lineToY(-40)
+                .strafeTo(new Vector2d(35,-20))
                 .build();
-        Action drop3_2 = drive.actionBuilder(drive.pose)
+        Action drop3_2 = drive.actionBuilder(new Pose2d(35,-20,(Math.PI)/2))
                 .waitSeconds(0.4)
+                .strafeTo(new Vector2d(5,-20))
+                .waitSeconds(0.4)
+
                 .lineToY(-71.5)
                 .waitSeconds(0.2)
-                .strafeTo(new Vector2d(125,-71.5))
+
+                .strafeTo(new Vector2d(110,-71.5))
                 .build();
-        Action park = drive.actionBuilder(drive.pose)
-                .waitSeconds(0.4)
-                .lineToY(-70)
-                .waitSeconds(0.2)
-                .lineToY(-71.5)
-                .build();
+
 
 
 
@@ -183,12 +215,12 @@ public class AARedClose extends LinearOpMode {
                         gripper.openRightGripper(),
                         second,
                         gripper.openLeftGripper(),
-                        park
+                        wrist.toUp()
                 )
         );
 
 
-            //magic vision
+        //magic vision
             /*Actions.runBlocking(
 
             Actions.runBlocking(

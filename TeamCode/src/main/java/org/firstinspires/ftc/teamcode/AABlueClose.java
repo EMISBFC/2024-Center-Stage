@@ -5,23 +5,17 @@ import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
-import org.firstinspires.ftc.teamcode.TeamPropDetection;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.TimeTrajectory;
-import com.acmerobotics.roadrunner.Trajectory;
 
 import com.acmerobotics.roadrunner.Vector2d;
-import com.acmerobotics.roadrunner.VelConstraint;
 import com.acmerobotics.roadrunner.ftc.Actions;
-import com.acmerobotics.roadrunner.ConstantTrajectoryBuilder;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
-import org.firstinspires.ftc.teamcode.roadrunner.tuning.TuningOpModes;
 import org.opencv.core.Scalar;
 
 
@@ -69,7 +63,7 @@ public class AABlueClose extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 leftGripper.setDirection(Servo.Direction.FORWARD);
-                leftGripper.setPosition(0.3);
+                leftGripper.setPosition(0.4);
                 return false;
             }
 
@@ -78,7 +72,7 @@ public class AABlueClose extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 leftGripper.setDirection(Servo.Direction.FORWARD);
-                leftGripper.setPosition(0.1);
+                leftGripper.setPosition(0.175);
                 return false;
             }
 
@@ -87,7 +81,7 @@ public class AABlueClose extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 rightGripper.setDirection(Servo.Direction.REVERSE);
-                rightGripper.setPosition(0.75);
+                rightGripper.setPosition(0.5);
                 return false;
             }
 
@@ -95,8 +89,9 @@ public class AABlueClose extends LinearOpMode {
         public class CloseRightGripper implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
+
                 rightGripper.setDirection(Servo.Direction.REVERSE);
-                rightGripper.setPosition(0.05);
+                rightGripper.setPosition(0.275);
                 return false;
             }
 
@@ -122,7 +117,7 @@ public class AABlueClose extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         Pose2d beginPose = new Pose2d(0, 72, (3*Math.PI)/2);
 
-            Vision vision = new Vision(hardwareMap);
+            VisionBlueClose visionBlueClose = new VisionBlueClose(hardwareMap);
             AGripper gripper = new AGripper(hardwareMap);
             MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
             AWrist wrist = new AWrist(hardwareMap);
@@ -132,7 +127,7 @@ public class AABlueClose extends LinearOpMode {
 
         Action first;
         Action second;
-        int zone = vision.elementDetection(telemetry,new Scalar(255, 0, 0, 1));
+        int zone = visionBlueClose.elementDetection(telemetry,new Scalar(0, 0, 255, 1));
 
 
 
@@ -142,7 +137,7 @@ public class AABlueClose extends LinearOpMode {
                 .lineToY(27)
                 .waitSeconds(0.2)
                 .build();
-        Action drop1_2 = drive.actionBuilder(drive.pose)
+        Action drop1_2 = drive.actionBuilder(new Pose2d(15,27,(3*Math.PI)/2))
                 .waitSeconds(0.4)
                 .lineToY(71.5)
                 .waitSeconds(0.2)
@@ -151,12 +146,12 @@ public class AABlueClose extends LinearOpMode {
         Action drop2 = drive.actionBuilder(beginPose)
                 .strafeTo(new Vector2d(-7,72))
                 .waitSeconds(0.2)
-                .lineToY(14)
+                .lineToY(7)
                 .waitSeconds(0.2)
                 .build();
-        Action drop2_2 = drive.actionBuilder(drive.pose)
+        Action drop2_2 = drive.actionBuilder(new Pose2d(-7,7,(3*Math.PI)/2))
                 .waitSeconds(0.4)
-                .lineToY(20)
+                /*.lineToY(20)
                 .waitSeconds(0.1)
                 .lineToY(30)
                 .waitSeconds(0.1)
@@ -165,19 +160,27 @@ public class AABlueClose extends LinearOpMode {
                 .lineToY(50)
                 .waitSeconds(0.1)
                 .lineToY(71.5)
-                .waitSeconds(0.2)
+                .waitSeconds(0.2)*/
+
+                .lineToY(71.5)
                 .strafeTo(new Vector2d(110,71.5))
                 .build();
         Action drop3 = drive.actionBuilder(beginPose)
-                .strafeTo(new Vector2d(-35,72))
+                .lineToY(20)
                 .waitSeconds(0.2)
-                .lineToY(27)
+                .strafeTo(new Vector2d(-35,20))
                 .build();
-        Action drop3_2 = drive.actionBuilder(drive.pose)
+        Action drop3_2 = drive.actionBuilder(new Pose2d(-35,20,(3*Math.PI)/2))
                 .waitSeconds(0.4)
+                .lineToY(23)
+                .waitSeconds(0.2)
+                .strafeTo(new Vector2d(-5,23))
+                .waitSeconds(0.4)
+
                 .lineToY(71.5)
                 .waitSeconds(0.2)
-                .strafeTo(new Vector2d(115,71.5))
+
+                .strafeTo(new Vector2d(110,71.5))
                 .build();
 
 

@@ -1,36 +1,34 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.opencv.core.Scalar;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-
-public class Vision{
+public class VisionRedFar {
 
     //arbitrary values of how much the camera sees
     int camW = 640;
     int camH = 480;
     private OpenCvWebcam camera;
     private int zone;
-    private TeamPropDetection teamPropDetection;
+    private TeamPropDetectionRedFar teamPropDetectionRedFar;
 
     private String webcamName = "Webcam1";
 
 
-    public Vision(HardwareMap hardwareMap){
+    public VisionRedFar(HardwareMap hardwareMap){
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam1"), cameraMonitorViewId);        teamPropDetection = new TeamPropDetection();
+        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam1"), cameraMonitorViewId);
+        teamPropDetectionRedFar = new TeamPropDetectionRedFar();
 
-        camera.setPipeline(teamPropDetection);
+        camera.setPipeline(teamPropDetectionRedFar);
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
             @Override
@@ -49,8 +47,8 @@ public class Vision{
     }
 
         public int elementDetection(Telemetry telemetry, Scalar alliance) {
-            teamPropDetection.setAlliance(alliance);
-            zone = teamPropDetection.getZone();
+            teamPropDetectionRedFar.setAlliance(alliance);
+            zone = teamPropDetectionRedFar.getZone();
             telemetry.addData("Element Zone", zone);
             telemetry.update();
             return zone;

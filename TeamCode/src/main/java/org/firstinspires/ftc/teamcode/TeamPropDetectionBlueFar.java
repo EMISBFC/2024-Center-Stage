@@ -8,7 +8,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 
 
 //all of this code is written assuming we get red alliance
-public class TeamPropDetection extends OpenCvPipeline {
+public class TeamPropDetectionBlueFar extends OpenCvPipeline {
     Mat zone1;
     Mat zone2;
     Mat zone3;
@@ -17,8 +17,10 @@ public class TeamPropDetection extends OpenCvPipeline {
     Scalar avgColor3;
     double difference1;
     double difference2;
+    Scalar avgColor2NoSpike = new Scalar(149,153,156,1);
+    Scalar avgColor3NoSpike = new Scalar(141,145,148,1);
     double difference3;
-    Scalar allianceColor = new Scalar(255,0,0,1);
+    Scalar allianceColor = new Scalar(0,0,255,1);
     final int maxDifference = 700; //arbitrary number for now
 
     //betting that it's left zone in case nothing works
@@ -32,8 +34,8 @@ public class TeamPropDetection extends OpenCvPipeline {
 
         //change values when we have the camera to fit the lines
         //zone1 = input.submat(new Rect(0, 100, 64, 380));
-        zone2 = input.submat(new Rect(130, 100, 260, 140));
-        zone3 = input.submat(new Rect(500, 150, 140, 260));
+        zone2 = input.submat(new Rect(70, 100, 260, 140));
+        zone3 = input.submat(new Rect(450, 150, 140, 260));
 
 
         //Averaging the colors in the zones
@@ -51,9 +53,9 @@ public class TeamPropDetection extends OpenCvPipeline {
         //difference1 = colorDifference(avgColor1, allianceColor);
         difference2 = colorDifference(avgColor2, allianceColor);
         difference3 = colorDifference(avgColor3, allianceColor);
-        if ((difference2< maxDifference) && (difference2 < difference3)) {
+        if ((difference2<(colorDifference(avgColor2NoSpike,allianceColor)-30)) && (difference2 < difference3)) {
             zone = 2;
-        } else if ((difference3 < maxDifference) && (difference3 < difference2)) {
+        } else if ((difference3<(colorDifference(avgColor3NoSpike, allianceColor)-30)) && (difference3 < difference2)) {
             zone = 3;
         }
         else{

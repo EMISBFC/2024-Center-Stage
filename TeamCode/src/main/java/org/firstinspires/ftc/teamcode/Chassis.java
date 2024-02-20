@@ -58,10 +58,10 @@ public class Chassis {
     }
     public void robotCentricDrive(double x, double y, double rx, double acc){
         if(acc>0.1){
-            mecanum.driveRobotCentric(x*0.75, y*0.75, rx*0.75);
+            mecanum.driveRobotCentric(x*1, y*1, rx*1);
         }
         else{
-            mecanum.driveRobotCentric(x*1, y*1, rx*1);
+            mecanum.driveRobotCentric(x*0.8, y*0.8, rx*0.8);
         }
     }
 }

@@ -1,28 +1,21 @@
-
 package org.firstinspires.ftc.teamcode;
 //NOTE TO SELF: STRAFE IN THE X AXIS MOVES HALF THAN YOU'D EXPECT SO J PUT DOUBLE THE DISTANCE :)
-// ALSO THE GRIPPERS LEFT IS RIGHT RIGHT IS LEFT :))))))))
+
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
-import org.firstinspires.ftc.teamcode.TeamPropDetection;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.TimeTrajectory;
-import com.acmerobotics.roadrunner.Trajectory;
 
 import com.acmerobotics.roadrunner.Vector2d;
-import com.acmerobotics.roadrunner.VelConstraint;
 import com.acmerobotics.roadrunner.ftc.Actions;
-import com.acmerobotics.roadrunner.ConstantTrajectoryBuilder;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
-import org.firstinspires.ftc.teamcode.roadrunner.tuning.TuningOpModes;
 import org.opencv.core.Scalar;
 
 
@@ -42,14 +35,25 @@ public class AABlueFar extends LinearOpMode {
             }
 
         }
+        public class ToUp implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                wristGripper.setDirection(Servo.Direction.FORWARD);
+                wristGripper.setPosition(0.8);
+                return false;
+            }
+
+        }
         public Action toGround(){
             return new ToGround();
+        }
+        public Action toUp(){
+            return new ToUp();
         }
     }
     public class AGripper {
         private Servo leftGripper;
         private Servo rightGripper;
-
 
         public AGripper(HardwareMap hardwareMap){
             leftGripper = hardwareMap.servo.get("leftGripper");
@@ -59,6 +63,7 @@ public class AABlueFar extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 leftGripper.setDirection(Servo.Direction.FORWARD);
+
                 leftGripper.setPosition(0.4);
                 return false;
             }
@@ -68,7 +73,8 @@ public class AABlueFar extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 leftGripper.setDirection(Servo.Direction.FORWARD);
-                leftGripper.setPosition(0.1);
+                leftGripper.setPosition(0.175);
+
                 return false;
             }
 
@@ -77,7 +83,7 @@ public class AABlueFar extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 rightGripper.setDirection(Servo.Direction.REVERSE);
-                rightGripper.setPosition(0.35);
+                rightGripper.setPosition(0.5);
                 return false;
             }
 
@@ -85,14 +91,21 @@ public class AABlueFar extends LinearOpMode {
         public class CloseRightGripper implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
+
                 rightGripper.setDirection(Servo.Direction.REVERSE);
-                rightGripper.setPosition(0.05);
+                rightGripper.setPosition(0.275);
                 return false;
             }
 
         }
+
+
+
         public Action openLeftGripper() {
             return new OpenLeftGripper();
+        }
+        public Action closeRightGripper() {
+            return new CloseRightGripper();
         }
         public Action openRightGripper() {
             return new OpenRightGripper();
@@ -100,10 +113,6 @@ public class AABlueFar extends LinearOpMode {
         public Action closeLeftGripper() {
             return new CloseLeftGripper();
         }
-        public Action closeRightGripper() {
-            return new CloseRightGripper();
-        }
-
 
 
 
@@ -111,66 +120,91 @@ public class AABlueFar extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        //Pose2d beginPose = new Pose2d(-122, 72, (3*Math.PI)/2);
-        Pose2d beginPose = new Pose2d(0, 72, (3*Math.PI)/2);
+        Pose2d beginPose = new Pose2d(-110, 72, (3*Math.PI)/2);
 
-            Vision vision = new Vision(hardwareMap);
-            AGripper gripper = new AGripper(hardwareMap);
-            MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
-            AWrist wrist = new AWrist(hardwareMap);
+        VisionBlueFar visionBlueFar = new VisionBlueFar(hardwareMap);
+        AGripper gripper = new AGripper(hardwareMap);
+        MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
+        AWrist wrist = new AWrist(hardwareMap);
 
-            waitForStart();
+        waitForStart();
 
 
         Action first;
         Action second;
-        int zone = vision.elementDetection(telemetry,new Scalar(255, 0, 0, 1));
+        int zone = visionBlueFar.elementDetection(telemetry,new Scalar(0, 0, 255, 1));
 
 
 
         Action drop1 = drive.actionBuilder(beginPose)
-
-                .strafeTo(new Vector2d(-102,72))
+                .strafeTo(new Vector2d(-120,72))
                 .waitSeconds(0.2)
-                .lineToY(40)
+                .lineToY(20)
+                .waitSeconds(0.2)
+                .strafeTo(new Vector2d(-95,20))
                 .waitSeconds(0.2)
                 .build();
-        Action drop1_2 = drive.actionBuilder(drive.pose)
+        Action drop1_2 = drive.actionBuilder(new Pose2d(-95,20,(3*Math.PI)/2))
                 .waitSeconds(0.4)
+                .lineToY(23)
+                .waitSeconds(0.2)
+                .strafeTo(new Vector2d(-110,23))
+                .waitSeconds(0.2)
+                .lineToY(65)
+                .waitSeconds(0.2)
+                .strafeTo(new Vector2d(65,65))
+                .waitSeconds(0.2)
                 .lineToY(71.5)
                 .waitSeconds(0.2)
-                .strafeTo(new Vector2d(210,71.5))
+                .strafeTo(new Vector2d(110,71.5))
                 .build();
         Action drop2 = drive.actionBuilder(beginPose)
-                .lineToY(22)
+                .strafeTo(new Vector2d(-117,72))
+                .waitSeconds(0.2)
+                .lineToY(7)
                 .waitSeconds(0.2)
                 .build();
-        Action drop2_2 = drive.actionBuilder(drive.pose)
+        Action drop2_2 = drive.actionBuilder(new Pose2d(-117,7,(3*Math.PI)/2))
                 .waitSeconds(0.4)
+                /*.lineToY(20)
+                .waitSeconds(0.1)
+                .lineToY(30)
+                .waitSeconds(0.1)
+                .lineToY(40)
+                .waitSeconds(0.1)
+                .lineToY(50)
+                .waitSeconds(0.1)
+                .lineToY(71.5)
+                .waitSeconds(0.2)*/
+
+                .lineToY(65)
+                .waitSeconds(0.2)
+                .strafeTo(new Vector2d(65,65))
+                .waitSeconds(0.2)
                 .lineToY(71.5)
                 .waitSeconds(0.2)
-                .strafeTo(new Vector2d(210,71.5))
+                .strafeTo(new Vector2d(110,71.5))
                 .build();
         Action drop3 = drive.actionBuilder(beginPose)
-                .strafeTo(new Vector2d(-157,72))
+                .strafeTo(new Vector2d(-145,72))
                 .waitSeconds(0.2)
-                .lineToY(40)
+                .lineToY(20)
+                .waitSeconds(0.2)
+
                 .build();
-        Action drop3_2 = drive.actionBuilder(drive.pose)
+        Action drop3_2 = drive.actionBuilder(new Pose2d(-145,20,(3*Math.PI)/2))
                 .waitSeconds(0.4)
+                .strafeTo(new Vector2d(-125,20))
+                .waitSeconds(0.4)
+                .lineToY(65)
+                .waitSeconds(0.2)
+                .strafeTo(new Vector2d(65,65))
+                .waitSeconds(0.2)
                 .lineToY(71.5)
                 .waitSeconds(0.2)
-                .strafeTo(new Vector2d(210,71.5))
+                .strafeTo(new Vector2d(110,71.5))
                 .build();
-        Action park = drive.actionBuilder(drive.pose)
-                .waitSeconds(0.4)
-                .lineToY(70)
-                .waitSeconds(0.2)
-                .lineToY(71.5)
-                .build();
-        Action twoTiles = drive.actionBuilder(drive.pose)
-                .strafeTo(new Vector2d(110,72))
-                .build();
+
 
 
 
@@ -191,20 +225,19 @@ public class AABlueFar extends LinearOpMode {
         }
 
         Actions.runBlocking(new SequentialAction(
-                        /*gripper.closeLeftGripper(),
+                        gripper.closeLeftGripper(),
                         gripper.closeRightGripper(),
                         wrist.toGround(),
                         first,
                         gripper.openRightGripper(),
                         second,
                         gripper.openLeftGripper(),
-                        park*/
-                twoTiles
+                        wrist.toUp()
                 )
         );
 
 
-            //magic vision
+        //magic vision
             /*Actions.runBlocking(
 
             Actions.runBlocking(
@@ -217,4 +250,4 @@ public class AABlueFar extends LinearOpMode {
 
 
     }
-            }
+}
