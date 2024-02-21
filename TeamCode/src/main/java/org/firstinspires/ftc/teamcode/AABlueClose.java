@@ -63,7 +63,7 @@ public class AABlueClose extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 leftGripper.setDirection(Servo.Direction.FORWARD);
-                leftGripper.setPosition(0.4);
+                leftGripper.setPosition(0.45);
                 return false;
             }
 
@@ -81,7 +81,7 @@ public class AABlueClose extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 rightGripper.setDirection(Servo.Direction.REVERSE);
-                rightGripper.setPosition(0.5);
+                rightGripper.setPosition(0.3);
                 return false;
             }
 
@@ -91,7 +91,7 @@ public class AABlueClose extends LinearOpMode {
             public boolean run(@NonNull TelemetryPacket packet) {
 
                 rightGripper.setDirection(Servo.Direction.REVERSE);
-                rightGripper.setPosition(0.275);
+                rightGripper.setPosition(0.09);
                 return false;
             }
 
@@ -133,21 +133,21 @@ public class AABlueClose extends LinearOpMode {
 
         Action drop1 = drive.actionBuilder(beginPose)
                 .strafeTo(new Vector2d(15,72))
-                .waitSeconds(0.2)
-                .lineToY(27)
-                .waitSeconds(0.2)
+                .waitSeconds(0.4)
+                .strafeTo(new Vector2d(15,27))
+                .waitSeconds(0.4)
                 .build();
         Action drop1_2 = drive.actionBuilder(new Pose2d(15,27,(3*Math.PI)/2))
                 .waitSeconds(0.4)
-                .lineToY(71.5)
-                .waitSeconds(0.2)
+                .strafeTo(new Vector2d(15,72))
+                .waitSeconds(0.4)
                 .strafeTo(new Vector2d(110,71.5))
                 .build();
         Action drop2 = drive.actionBuilder(beginPose)
                 .strafeTo(new Vector2d(-7,72))
                 .waitSeconds(0.2)
-                .lineToY(7)
-                .waitSeconds(0.2)
+                .strafeTo(new Vector2d(-7,7))
+                .waitSeconds(0.4)
                 .build();
         Action drop2_2 = drive.actionBuilder(new Pose2d(-7,7,(3*Math.PI)/2))
                 .waitSeconds(0.4)
@@ -161,24 +161,23 @@ public class AABlueClose extends LinearOpMode {
                 .waitSeconds(0.1)
                 .lineToY(71.5)
                 .waitSeconds(0.2)*/
-
                 .lineToY(71.5)
                 .waitSeconds(1)
                 .strafeTo(new Vector2d(110,71.5))
                 .build();
         Action drop3 = drive.actionBuilder(beginPose)
-                .lineToY(20)
+                .strafeTo(new Vector2d(0,20))
                 .waitSeconds(0.2)
                 .strafeTo(new Vector2d(-35,20))
                 .build();
         Action drop3_2 = drive.actionBuilder(new Pose2d(-35,20,(3*Math.PI)/2))
                 .waitSeconds(0.4)
-                .lineToY(23)
+                .strafeTo(new Vector2d(-35,23))
                 .waitSeconds(0.2)
                 .strafeTo(new Vector2d(-5,23))
                 .waitSeconds(0.4)
 
-                .lineToY(71.5)
+                .strafeTo(new Vector2d(-5,71.5))
                 .waitSeconds(0.2)
 
                 .strafeTo(new Vector2d(110,71.5))
