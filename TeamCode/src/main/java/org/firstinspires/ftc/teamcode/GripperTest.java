@@ -38,13 +38,13 @@ public class GripperTest {
 
         if(gamepad.square && !squareLock && rightOpen){ // end me , ty u/4106Thumbs
             rightGripper.setDirection(Servo.Direction.REVERSE);
-            rightGripper.setPosition(0.5);
+            rightGripper.setPosition(0.55);
             squareLock = true;
             rightOpen = false;
         }
         else if(gamepad.square && !squareLock && !rightOpen){
             rightGripper.setDirection(Servo.Direction.REVERSE);
-            rightGripper.setPosition(0.275);
+            rightGripper.setPosition(0.09);
             squareLock = true;
             rightOpen = true;
         }
@@ -52,7 +52,7 @@ public class GripperTest {
 
         if (gamepad.triangle) {
             rightGripper.setDirection(Servo.Direction.REVERSE);
-            rightGripper.setPosition(0.275);
+            rightGripper.setPosition(0.09);
             rightOpen = true;
             leftGripper.setDirection(Servo.Direction.FORWARD);
             leftGripper.setPosition(0.175);
@@ -60,7 +60,7 @@ public class GripperTest {
         }
         if(gamepad.cross){
             rightGripper.setDirection(Servo.Direction.REVERSE);
-            rightGripper.setPosition(0.5);
+            rightGripper.setPosition(0.55);
             rightOpen = false;
             leftGripper.setDirection(Servo.Direction.FORWARD);
             leftGripper.setPosition(0.4);

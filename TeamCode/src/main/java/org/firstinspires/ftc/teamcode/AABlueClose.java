@@ -163,6 +163,7 @@ public class AABlueClose extends LinearOpMode {
                 .waitSeconds(0.2)*/
 
                 .lineToY(71.5)
+                .waitSeconds(1)
                 .strafeTo(new Vector2d(110,71.5))
                 .build();
         Action drop3 = drive.actionBuilder(beginPose)
@@ -183,8 +184,9 @@ public class AABlueClose extends LinearOpMode {
                 .strafeTo(new Vector2d(110,71.5))
                 .build();
 
-
-
+        Action wait = drive.actionBuilder(new Pose2d(110,71.5, (3*Math.PI)/2))
+                .waitSeconds(1)
+                .build();
 
         if (zone == 3) {
             first = drop3;
@@ -210,7 +212,9 @@ public class AABlueClose extends LinearOpMode {
                         gripper.openRightGripper(),
                         second,
                         gripper.openLeftGripper(),
-                        wrist.toUp()
+                        wait,
+                        wrist.toUp(),
+                        wait
                 )
         );
 

@@ -140,6 +140,9 @@ public class AARedClose extends LinearOpMode {
                 .strafeTo(new Vector2d(-15,-19))
                 .waitSeconds(0.2)
                 .build();
+/*        Action contingency = drive.actionBuilder(beginPose)
+                .strafeTo(new Vector2d(110,-72))
+                .build();*/
         Action drop1_2 = drive.actionBuilder(new Pose2d(-15,-20,(Math.PI)/2))
                 .waitSeconds(0.4)
                 .lineToY(-23)
@@ -158,7 +161,7 @@ public class AARedClose extends LinearOpMode {
                 .build();
         Action drop2_2 = drive.actionBuilder(new Pose2d(-7,-7,(Math.PI)/2))
                 .waitSeconds(0.4)
-                /*.lineToY(20)
+                .lineToY(20)
                 .waitSeconds(0.1)
                 .lineToY(30)
                 .waitSeconds(0.1)
@@ -167,7 +170,7 @@ public class AARedClose extends LinearOpMode {
                 .lineToY(50)
                 .waitSeconds(0.1)
                 .lineToY(71.5)
-                .waitSeconds(0.2)*/
+                .waitSeconds(0.2)
 
                 .lineToY(-71.5)
                 .strafeTo(new Vector2d(110,-71.5))
@@ -187,6 +190,9 @@ public class AARedClose extends LinearOpMode {
 
                 .strafeTo(new Vector2d(110,-71.5))
                 .build();
+        Action wait = drive.actionBuilder(new Pose2d(110,-71.5,(Math.PI)/2))
+            .waitSeconds(0.2)
+                    .build();
 
 
 
@@ -211,11 +217,14 @@ public class AARedClose extends LinearOpMode {
                         gripper.closeLeftGripper(),
                         gripper.closeRightGripper(),
                         wrist.toGround(),
+
+                        wrist.toGround(),
                         first,
                         gripper.openRightGripper(),
                         second,
                         gripper.openLeftGripper(),
-                        wrist.toUp()
+                        wrist.toUp(),
+                wait
                 )
         );
 

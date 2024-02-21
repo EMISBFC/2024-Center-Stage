@@ -193,6 +193,9 @@ public class AARedFar extends LinearOpMode {
                 .waitSeconds(0.2)
                 .strafeTo(new Vector2d(110,-71.5))
                 .build();
+        Action wait = drive.actionBuilder(new Pose2d(110,-71.5,(Math.PI)/2))
+                .waitSeconds(0.2)
+                .build();
 
 
 
@@ -221,7 +224,7 @@ public class AARedFar extends LinearOpMode {
                         gripper.openRightGripper(),
                         second,
                         gripper.openLeftGripper(),
-                        wrist.toUp()
+                        wait
                 )
         );
 
