@@ -24,13 +24,13 @@ public class GripperTest {
 
         if(gamepad.circle && !circleLock && leftOpen){ // end me , ty u/4106Thumbs
             leftGripper.setDirection(Servo.Direction.FORWARD);
-            leftGripper.setPosition(0.4);
+            leftGripper.setPosition(0.6);
             circleLock = true;
             leftOpen = false;
         }
         else if(gamepad.circle && !circleLock && !leftOpen){
             leftGripper.setDirection(Servo.Direction.FORWARD);
-            leftGripper.setPosition(0.175);
+            leftGripper.setPosition(0.35);
             circleLock = true;
             leftOpen = true;
         }
@@ -38,13 +38,13 @@ public class GripperTest {
 
         if(gamepad.square && !squareLock && rightOpen){ // end me , ty u/4106Thumbs
             rightGripper.setDirection(Servo.Direction.REVERSE);
-            rightGripper.setPosition(0.55);
+            rightGripper.setPosition(0.48);
             squareLock = true;
             rightOpen = false;
         }
         else if(gamepad.square && !squareLock && !rightOpen){
             rightGripper.setDirection(Servo.Direction.REVERSE);
-            rightGripper.setPosition(0.09);
+            rightGripper.setPosition(0.23);
             squareLock = true;
             rightOpen = true;
         }
@@ -52,18 +52,18 @@ public class GripperTest {
 
         if (gamepad.triangle) {
             rightGripper.setDirection(Servo.Direction.REVERSE);
-            rightGripper.setPosition(0.09);
+            rightGripper.setPosition(0.23);
             rightOpen = true;
             leftGripper.setDirection(Servo.Direction.FORWARD);
-            leftGripper.setPosition(0.175);
+            leftGripper.setPosition(0.35);
             leftOpen = true;
         }
         if(gamepad.cross){
             rightGripper.setDirection(Servo.Direction.REVERSE);
-            rightGripper.setPosition(0.55);
+            rightGripper.setPosition(0.48);
             rightOpen = false;
             leftGripper.setDirection(Servo.Direction.FORWARD);
-            leftGripper.setPosition(0.4);
+            leftGripper.setPosition(0.6);
             leftOpen = false;
         }
     }

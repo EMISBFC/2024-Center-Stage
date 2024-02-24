@@ -63,7 +63,7 @@ public class AARedFar extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 leftGripper.setDirection(Servo.Direction.FORWARD);
-                leftGripper.setPosition(0.4);
+                leftGripper.setPosition(0.6);
                 return false;
             }
 
@@ -72,7 +72,7 @@ public class AARedFar extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 leftGripper.setDirection(Servo.Direction.FORWARD);
-                leftGripper.setPosition(0.175);
+                leftGripper.setPosition(0.35);
                 return false;
             }
 
@@ -81,7 +81,7 @@ public class AARedFar extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 rightGripper.setDirection(Servo.Direction.REVERSE);
-                rightGripper.setPosition(0.5);
+                rightGripper.setPosition(0.48);
                 return false;
             }
 
@@ -91,7 +91,7 @@ public class AARedFar extends LinearOpMode {
             public boolean run(@NonNull TelemetryPacket packet) {
 
                 rightGripper.setDirection(Servo.Direction.REVERSE);
-                rightGripper.setPosition(0.275);
+                rightGripper.setPosition(0.23);
                 return false;
             }
 

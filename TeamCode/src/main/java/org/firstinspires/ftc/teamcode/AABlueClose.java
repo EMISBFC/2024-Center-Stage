@@ -62,8 +62,10 @@ public class AABlueClose extends LinearOpMode {
         public class OpenLeftGripper implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
+
                 leftGripper.setDirection(Servo.Direction.FORWARD);
-                leftGripper.setPosition(0.45);
+                leftGripper.setPosition(0.6);
+
                 return false;
             }
 
@@ -71,8 +73,9 @@ public class AABlueClose extends LinearOpMode {
         public class CloseLeftGripper implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
+
                 leftGripper.setDirection(Servo.Direction.FORWARD);
-                leftGripper.setPosition(0.175);
+                leftGripper.setPosition(0.35);
                 return false;
             }
 
@@ -81,7 +84,7 @@ public class AABlueClose extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 rightGripper.setDirection(Servo.Direction.REVERSE);
-                rightGripper.setPosition(0.3);
+                rightGripper.setPosition(0.48);
                 return false;
             }
 
@@ -91,7 +94,7 @@ public class AABlueClose extends LinearOpMode {
             public boolean run(@NonNull TelemetryPacket packet) {
 
                 rightGripper.setDirection(Servo.Direction.REVERSE);
-                rightGripper.setPosition(0.09);
+                rightGripper.setPosition(0.23);
                 return false;
             }
 
