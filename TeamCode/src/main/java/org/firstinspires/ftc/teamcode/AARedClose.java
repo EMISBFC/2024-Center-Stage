@@ -135,7 +135,7 @@ public class AARedClose extends LinearOpMode {
         Action drop1 = drive.actionBuilder(beginPose)
                 .strafeTo(new Vector2d(7,-72))
                 .waitSeconds(0.2)
-                .lineToY(-19)
+                .strafeTo(new Vector2d(7,-19))
                 .waitSeconds(0.2)
                 .strafeTo(new Vector2d(-15,-19))
                 .waitSeconds(0.2)
@@ -143,40 +143,30 @@ public class AARedClose extends LinearOpMode {
 /*        Action contingency = drive.actionBuilder(beginPose)
                 .strafeTo(new Vector2d(110,-72))
                 .build();*/
-        Action drop1_2 = drive.actionBuilder(new Pose2d(-15,-20,(Math.PI)/2))
+        Action drop1_2 = drive.actionBuilder(new Pose2d(-15,-19,(Math.PI)/2))
                 .waitSeconds(0.4)
-                .lineToY(-23)
+                .strafeTo(new Vector2d(-15,-23))
                 .waitSeconds(0.2)
                 .strafeTo(new Vector2d(7,-23))
                 .waitSeconds(0.2)
-                .lineToY(-71.5)
+                .strafeTo(new Vector2d(7,-71.5))
                 .waitSeconds(0.2)
                 .strafeTo(new Vector2d(110,-71.5))
                 .build();
         Action drop2 = drive.actionBuilder(beginPose)
                 .strafeTo(new Vector2d(7,-72))
                 .waitSeconds(0.2)
-                .lineToY(-7)
+                .strafeTo(new Vector2d(7,-7))
                 .waitSeconds(0.2)
                 .build();
-        Action drop2_2 = drive.actionBuilder(new Pose2d(-7,-7,(Math.PI)/2))
+        Action drop2_2 = drive.actionBuilder(new Pose2d(7,-7,(Math.PI)/2))
                 .waitSeconds(0.4)
-                .lineToY(20)
+                .strafeTo(new Vector2d(7,-71.5))
                 .waitSeconds(0.1)
-                .lineToY(30)
-                .waitSeconds(0.1)
-                .lineToY(40)
-                .waitSeconds(0.1)
-                .lineToY(50)
-                .waitSeconds(0.1)
-                .lineToY(71.5)
-                .waitSeconds(0.2)
-
-                .lineToY(-71.5)
                 .strafeTo(new Vector2d(110,-71.5))
                 .build();
         Action drop3 = drive.actionBuilder(beginPose)
-                .lineToY(-20)
+                .strafeTo(new Vector2d(0,-20))
                 .waitSeconds(0.2)
                 .strafeTo(new Vector2d(35,-20))
                 .build();
@@ -185,7 +175,7 @@ public class AARedClose extends LinearOpMode {
                 .strafeTo(new Vector2d(5,-20))
                 .waitSeconds(0.4)
 
-                .lineToY(-71.5)
+                .strafeTo(new Vector2d(5,-71.5))
                 .waitSeconds(0.2)
 
                 .strafeTo(new Vector2d(110,-71.5))
@@ -199,17 +189,12 @@ public class AARedClose extends LinearOpMode {
 
         if (zone == 3) {
             first = drop3;
-        } else if (zone == 2) {
-            first = drop2;
-        } else {
-            first = drop1;
-        }
-
-        if (zone == 3) {
             second = drop3_2;
         } else if (zone == 2) {
+            first = drop2;
             second = drop2_2;
         } else {
+            first = drop1;
             second = drop1_2;
         }
 

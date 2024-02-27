@@ -118,7 +118,7 @@ public class AABlueClose extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Pose2d beginPose = new Pose2d(0, 72, (3*Math.PI)/2);
+        Pose2d beginPose = new Pose2d(0, 72, ( 3*Math.PI)/2);
 
             VisionBlueClose visionBlueClose = new VisionBlueClose(hardwareMap);
             AGripper gripper = new AGripper(hardwareMap);
@@ -142,7 +142,7 @@ public class AABlueClose extends LinearOpMode {
                 .build();
         Action drop1_2 = drive.actionBuilder(new Pose2d(15,27,(3*Math.PI)/2))
                 .waitSeconds(0.4)
-                .strafeTo(new Vector2d(15,72))
+                .strafeTo(new Vector2d(15,71.5))
                 .waitSeconds(0.4)
                 .strafeTo(new Vector2d(110,71.5))
                 .build();
@@ -154,17 +154,7 @@ public class AABlueClose extends LinearOpMode {
                 .build();
         Action drop2_2 = drive.actionBuilder(new Pose2d(-7,7,(3*Math.PI)/2))
                 .waitSeconds(0.4)
-                /*.lineToY(20)
-                .waitSeconds(0.1)
-                .lineToY(30)
-                .waitSeconds(0.1)
-                .lineToY(40)
-                .waitSeconds(0.1)
-                .lineToY(50)
-                .waitSeconds(0.1)
-                .lineToY(71.5)
-                .waitSeconds(0.2)*/
-                .lineToY(71.5)
+                .strafeTo(new Vector2d(-7,71.5))
                 .waitSeconds(1)
                 .strafeTo(new Vector2d(110,71.5))
                 .build();
@@ -179,10 +169,8 @@ public class AABlueClose extends LinearOpMode {
                 .waitSeconds(0.2)
                 .strafeTo(new Vector2d(-5,23))
                 .waitSeconds(0.4)
-
                 .strafeTo(new Vector2d(-5,71.5))
                 .waitSeconds(0.2)
-
                 .strafeTo(new Vector2d(110,71.5))
                 .build();
 
@@ -192,19 +180,16 @@ public class AABlueClose extends LinearOpMode {
 
         if (zone == 3) {
             first = drop3;
-        } else if (zone == 2) {
-            first = drop2;
-        } else {
-            first = drop1;
-        }
-
-        if (zone == 3) {
             second = drop3_2;
         } else if (zone == 2) {
+            first = drop2;
             second = drop2_2;
         } else {
+            first = drop1;
             second = drop1_2;
         }
+
+
 
         Actions.runBlocking(new SequentialAction(
                         gripper.closeLeftGripper(),
