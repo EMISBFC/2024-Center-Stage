@@ -30,7 +30,7 @@ public class AABlueFar extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 wristGripper.setDirection(Servo.Direction.FORWARD);
-                wristGripper.setPosition(0.65);
+                wristGripper.setPosition(0.45);
                 return false;
             }
 
@@ -64,7 +64,7 @@ public class AABlueFar extends LinearOpMode {
             public boolean run(@NonNull TelemetryPacket packet) {
                 leftGripper.setDirection(Servo.Direction.FORWARD);
 
-                leftGripper.setPosition(0.6);
+                leftGripper.setPosition(0.45);
                 return false;
             }
 
@@ -73,7 +73,7 @@ public class AABlueFar extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 leftGripper.setDirection(Servo.Direction.FORWARD);
-                leftGripper.setPosition(0.35);
+                leftGripper.setPosition(0.1);
 
                 return false;
             }
@@ -132,6 +132,11 @@ public class AABlueFar extends LinearOpMode {
 
         Action first;
         Action second;
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
         int zone = visionBlueFar.elementDetection(telemetry,new Scalar(0, 0, 255, 1));
 
 

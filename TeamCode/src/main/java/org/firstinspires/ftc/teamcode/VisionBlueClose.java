@@ -17,18 +17,22 @@ public class VisionBlueClose {
     int camW = 640;
     int camH = 480;
     private OpenCvWebcam camera;
-    private int zone;
+
     private TeamPropDetectionBlueClose teamPropDetectionBlueClose;
+    private VisionMagic visionMagic;
 
     private String webcamName = "Webcam1";
 
 
     public VisionBlueClose(HardwareMap hardwareMap){
+        visionMagic = new VisionMagic();
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam1"), cameraMonitorViewId);
-        teamPropDetectionBlueClose = new TeamPropDetectionBlueClose();
+        //teamPropDetectionBlueClose = new TeamPropDetectionBlueClose();
 
-        camera.setPipeline(teamPropDetectionBlueClose);
+
+        //camera.setPipeline(teamPropDetectionBlueClose);
+        camera.setPipeline(visionMagic);
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
             @Override
@@ -36,6 +40,8 @@ public class VisionBlueClose {
             {
                 camera.startStreaming(camW, camH, OpenCvCameraRotation.UPRIGHT);
                 FtcDashboard.getInstance().startCameraStream(camera, 30);
+
+
             }
 
             @Override
@@ -47,8 +53,18 @@ public class VisionBlueClose {
     }
 
         public int elementDetection(Telemetry telemetry, Scalar alliance) {
-            zone = teamPropDetectionBlueClose.getZone();
-            telemetry.addData("Element Zone", zone);
+            //zone = teamPropDetectionBlueClose.getZone();
+            //telemetry.addData("Element Zone ", zone);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            int zone = visionMagic.getZone();
+            telemetry.addData("Zone ", visionMagic.getZone());
+            telemetry.addData("SatZone2 ", visionMagic.getSatZone2());
+            telemetry.addData("SatZone3 ", visionMagic.getSatZone3());
+            telemetry.addData("Percentage Diff ", visionMagic.getPercentDifference());
             telemetry.update();
             return zone;
         }

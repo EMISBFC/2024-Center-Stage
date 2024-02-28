@@ -18,7 +18,8 @@ public class VisionRedClose {
     int camH = 480;
     private OpenCvWebcam camera;
     private int zone;
-    private TeamPropDetectionRedClose teamPropDetectionRedClose;
+    private VisionMagic visionMagic;
+
 
     private String webcamName = "Webcam1";
 
@@ -26,9 +27,9 @@ public class VisionRedClose {
     public VisionRedClose(HardwareMap hardwareMap){
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam1"), cameraMonitorViewId);
-        teamPropDetectionRedClose = new TeamPropDetectionRedClose();
+        visionMagic = new VisionMagic();
 
-        camera.setPipeline(teamPropDetectionRedClose);
+        camera.setPipeline(visionMagic);
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
             @Override
@@ -47,9 +48,16 @@ public class VisionRedClose {
     }
 
         public int elementDetection(Telemetry telemetry, Scalar alliance) {
-            teamPropDetectionRedClose.setAlliance(alliance);
-            zone = teamPropDetectionRedClose.getZone();
-            telemetry.addData("Element Zone", zone);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            int zone = visionMagic.getZone();
+            telemetry.addData("Zone ", visionMagic.getZone());
+            telemetry.addData("SatZone2 ", visionMagic.getSatZone2());
+            telemetry.addData("SatZone3 ", visionMagic.getSatZone3());
+            telemetry.addData("Percentage Diff ", visionMagic.getPercentDifference());
             telemetry.update();
             return zone;
         }

@@ -5,6 +5,7 @@ import org.opencv.core.Mat;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.openftc.easyopencv.OpenCvPipeline;
+import org.opencv.imgproc.Imgproc;
 
 
 //all of this code is written assuming we get red alliance
