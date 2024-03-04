@@ -10,12 +10,6 @@ import org.openftc.easyopencv.OpenCvPipeline;
 
 //all of this code is written assuming we get red alliance
 public class VisionMagic extends OpenCvPipeline {
-    Mat zone1;
-    Mat zone2;
-    Mat zone3;
-    Scalar avgColor1;
-    Scalar avgColor2 = new Scalar(255,0,0,0.5);
-    Scalar avgColor3 = new Scalar(255,0,0,0.5);
     final int maxDifference = 700; //arbitrary number for now
 
     //betting that it's left zone in case nothing works
@@ -25,7 +19,7 @@ public class VisionMagic extends OpenCvPipeline {
     static double satZone2;
     static double satZone3;
     public double MinDif = 45;
-    public double MinZone2 = 50;
+    public double MinZone2 = 35;
     public double MinZone3 = 30;
     Mat submat = new Mat();
     Mat hsvMat = new Mat();
@@ -43,8 +37,8 @@ public class VisionMagic extends OpenCvPipeline {
         Rect zone3 = new Rect(450, 150, 190, 260);
         satZone2 = getAvgSaturation(hsvMat, zone2);
         satZone3 = getAvgSaturation(hsvMat, zone3);
-        original.submat(zone2).setTo(avgColor2);
-        original.submat(zone3).setTo(avgColor3);
+        original.submat(zone2).setTo(new Scalar(255,0,0,0.5));
+        original.submat(zone3).setTo(new Scalar(255,0,0,0.5));
         percentDifference = getPercentDifference(satZone2,satZone3);
 
         if (percentDifference <= MinDif) {
@@ -52,7 +46,7 @@ public class VisionMagic extends OpenCvPipeline {
         } else if (satZone2 > satZone3 && satZone2 > MinZone2) {
             zone = 2;
         } else if (satZone3 > satZone2 && satZone3 > MinZone3) {
-            zone=3;
+            zone = 3;
         }
         return original;
     }

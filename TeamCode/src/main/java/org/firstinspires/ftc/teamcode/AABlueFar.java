@@ -144,24 +144,30 @@ public class AABlueFar extends LinearOpMode {
         Action drop1 = drive.actionBuilder(beginPose)
                 .strafeTo(new Vector2d(-120,72))
                 .waitSeconds(0.2)
+
                 .strafeTo(new Vector2d(-120,20))
+                .turn(Math.toRadians(90))
+                .waitSeconds(0.2)
+                .strafeTo(new Vector2d(-108,15))
+                /*.strafeTo(new Vector2d(-120,20))
                 .waitSeconds(0.2)
                 .strafeTo(new Vector2d(-95,20))
-                .waitSeconds(0.2)
+                .waitSeconds(0.2)*/
                 .build();
-        Action drop1_2 = drive.actionBuilder(new Pose2d(-95,20,(3*Math.PI)/2))
+        Action drop1_2 = drive.actionBuilder(new Pose2d(-108,15,0))
                 .waitSeconds(0.4)
-                .strafeTo(new Vector2d(-95,23))
+                .strafeTo(new Vector2d(-120,20))
                 .waitSeconds(0.2)
-                .strafeTo(new Vector2d(-110,23))
+                .turn(Math.toRadians(-90))
                 .waitSeconds(0.2)
-                .strafeTo(new Vector2d(-110,65))
+                .strafeTo(new Vector2d(-120,65))
                 .waitSeconds(0.2)
                 .strafeTo(new Vector2d(65,65))
                 .waitSeconds(0.2)
                 .strafeTo(new Vector2d(65,71.5))
                 .waitSeconds(0.2)
                 .strafeTo(new Vector2d(110,71.5))
+                .waitSeconds(0.5)
                 .build();
         Action drop2 = drive.actionBuilder(beginPose)
                 .strafeTo(new Vector2d(-117,72))
@@ -180,15 +186,15 @@ public class AABlueFar extends LinearOpMode {
                 .strafeTo(new Vector2d(110,71.5))
                 .build();
         Action drop3 = drive.actionBuilder(beginPose)
-                .strafeTo(new Vector2d(-145,72))
+                .strafeTo(new Vector2d(-153,72))
                 .waitSeconds(0.2)
-                .strafeTo(new Vector2d(-145,20))
+                .strafeTo(new Vector2d(-153,20))
                 .waitSeconds(0.2)
 
                 .build();
-        Action drop3_2 = drive.actionBuilder(new Pose2d(-145,20,(3*Math.PI)/2))
+        Action drop3_2 = drive.actionBuilder(new Pose2d(-153,20,(3*Math.PI)/2))
                 .waitSeconds(0.4)
-                .strafeTo(new Vector2d(-145,65))
+                .strafeTo(new Vector2d(-153,65))
                 .waitSeconds(0.2)
                 .strafeTo(new Vector2d(65,65))
                 .waitSeconds(0.2)
@@ -220,9 +226,9 @@ public class AABlueFar extends LinearOpMode {
                         gripper.closeRightGripper(),
                         wrist.toGround(),
                         first,
-                        gripper.openRightGripper(),
-                        second,
                         gripper.openLeftGripper(),
+                        second,
+                        gripper.openRightGripper(),
                         wait,
                         wrist.toUp(),
                         wait
