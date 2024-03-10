@@ -12,41 +12,27 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class VisionRedClose {
-
-    //arbitrary values of how much the camera sees
-    int camW = 640;
-    int camH = 480;
     private OpenCvWebcam camera;
     private int zone;
     private VisionMagic visionMagic;
-
-
     private String webcamName = "Webcam1";
-
-
     public VisionRedClose(HardwareMap hardwareMap){
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam1"), cameraMonitorViewId);
         visionMagic = new VisionMagic();
-
         camera.setPipeline(visionMagic);
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
             @Override
             public void onOpened()
             {
-                camera.startStreaming(camW, camH, OpenCvCameraRotation.UPRIGHT);
+                camera.startStreaming(Constants.camW, Constants.camH, OpenCvCameraRotation.UPRIGHT);
                 FtcDashboard.getInstance().startCameraStream(camera, 30);
             }
-
             @Override
-            public void onError(int errorCode)
-            {
-
-            }
+            public void onError(int errorCode) {}
         });
     }
-
         public int elementDetection(Telemetry telemetry, Scalar alliance) {
             try {
                 Thread.sleep(500);
@@ -61,10 +47,4 @@ public class VisionRedClose {
             telemetry.update();
             return zone;
         }
-
-
-
-
-
-
 }

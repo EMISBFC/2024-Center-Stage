@@ -23,25 +23,13 @@ public class Wrist {
         wristGripper = hardwareMap.servo.get("wrist_gripper");
     }
 
-    public void handleWristServo(Gamepad gamepad){
-        if(gamepad.triangle){
-            wristGripper.setDirection(Servo.Direction.FORWARD);
-            wristGripper.setPosition(0.1); //ignore these
-        }
-        if (gamepad.cross){
-            wristGripper.setDirection(Servo.Direction.FORWARD);
-            wristGripper.setPosition(0.4); //ignore these
-        }
-    }
-
     public void goToBackboardPos(){
         wristGripper.setDirection(Servo.Direction.FORWARD);
-        wristGripper.setPosition(0.30);
+        wristGripper.setPosition(Constants.wristBackboardPos);
     }
 
     public void goToFloorPosition(){
         wristGripper.setDirection(Servo.Direction.FORWARD);
-        wristGripper.setPosition(0.65);
+        wristGripper.setPosition(Constants.wristFloorPos);
     }
-
 }

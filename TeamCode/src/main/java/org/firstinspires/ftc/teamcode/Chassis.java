@@ -24,29 +24,15 @@ public class Chassis {
 
     MecanumDrive mecanum;
     public Chassis(HardwareMap hardwareMap){
-//		fl = hardwareMap.get(DcMotorEx.class, "fl");
-//		fr = hardwareMap.get(DcMotorEx.class, "fr");
-//		bl = hardwareMap.get(DcMotorEx.class, "bl");
-//		br = hardwareMap.get(DcMotorEx.class, "br");
-//		vs = hardwareMap.get(VoltageSensor.class, "fl");
 
         fl = new Motor(hardwareMap, "fl");
         fr = new Motor(hardwareMap, "fr");
         bl = new Motor(hardwareMap, "bl");
         br = new Motor(hardwareMap, "br");
 
-
-//		br.setDirection(DcMotorEx.Direction.REVERSE);
-//		fr.setDirection(DcMotorEx.Direction.REVERSE);
-
-//		br.setInverted(true);
-//		fr.setInverted(true);
-
         mecanum = new MecanumDrive(fl, fr, bl, br);
 
     }
-
-
 
     public void fieldCentricDrive(double x, double y, double rx, double heading, double acc){
         if(acc>0.5) {
