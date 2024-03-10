@@ -26,11 +26,11 @@ public class Wrist {
     public void handleWristServo(Gamepad gamepad){
         if(gamepad.triangle){
             wristGripper.setDirection(Servo.Direction.FORWARD);
-            wristGripper.setPosition(0.1);
+            wristGripper.setPosition(0.1); //ignore these
         }
         if (gamepad.cross){
             wristGripper.setDirection(Servo.Direction.FORWARD);
-            wristGripper.setPosition(0.4);
+            wristGripper.setPosition(0.4); //ignore these
         }
     }
 

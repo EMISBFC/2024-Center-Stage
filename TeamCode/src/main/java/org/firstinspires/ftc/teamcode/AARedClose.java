@@ -30,7 +30,7 @@ public class AARedClose extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 wristGripper.setDirection(Servo.Direction.FORWARD);
-                wristGripper.setPosition(0.45);
+                wristGripper.setPosition(0.65);
                 return false;
             }
 
