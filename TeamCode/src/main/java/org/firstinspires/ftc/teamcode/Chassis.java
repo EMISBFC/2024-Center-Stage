@@ -49,11 +49,11 @@ public class Chassis {
 
 
     public void fieldCentricDrive(double x, double y, double rx, double heading, double acc){
-        if(acc>1) {
-            mecanum.driveFieldCentric(x * 0.75, y * 0.75, rx * 0.75, heading);
+        if(acc>0.5) {
+            mecanum.driveFieldCentric(x * 1, y * 1, rx * 1, heading);
         }
         else{
-            mecanum.driveFieldCentric(x * 1, y * 1, rx * 1, heading);
+            mecanum.driveFieldCentric(x * 0.75, y * 0.75, rx * 0.75, heading);
         }
     }
     public void robotCentricDrive(double x, double y, double rx, double acc){

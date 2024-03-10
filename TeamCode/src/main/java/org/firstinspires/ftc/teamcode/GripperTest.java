@@ -23,14 +23,14 @@ public class GripperTest {
     public void handleServo(Gamepad gamepad) throws InterruptedException {
 
         if(gamepad.circle && !circleLock && leftOpen){ // end me , ty u/4106Thumbs
-            leftGripper.setDirection(Servo.Direction.FORWARD);
-            leftGripper.setPosition(0.45);
+            leftGripper.setDirection(Servo.Direction.REVERSE);
+            leftGripper.setPosition(0.30);
             circleLock = true;
             leftOpen = false;
         }
         else if(gamepad.circle && !circleLock && !leftOpen){
-            leftGripper.setDirection(Servo.Direction.FORWARD);
-            leftGripper.setPosition(0.1);
+            leftGripper.setDirection(Servo.Direction.REVERSE);
+            leftGripper.setPosition(0.50);
             circleLock = true;
             leftOpen = true;
         }
@@ -54,16 +54,16 @@ public class GripperTest {
             rightGripper.setDirection(Servo.Direction.REVERSE);
             rightGripper.setPosition(0.23);
             rightOpen = true;
-            leftGripper.setDirection(Servo.Direction.FORWARD);
-            leftGripper.setPosition(0.1);
+            leftGripper.setDirection(Servo.Direction.REVERSE);
+            leftGripper.setPosition(0.50);
             leftOpen = true;
         }
         if(gamepad.cross){
             rightGripper.setDirection(Servo.Direction.REVERSE);
             rightGripper.setPosition(0.48);
             rightOpen = false;
-            leftGripper.setDirection(Servo.Direction.FORWARD);
-            leftGripper.setPosition(0.45);
+            leftGripper.setDirection(Servo.Direction.REVERSE);
+            leftGripper.setPosition(0.25);
             leftOpen = false;
         }
     }

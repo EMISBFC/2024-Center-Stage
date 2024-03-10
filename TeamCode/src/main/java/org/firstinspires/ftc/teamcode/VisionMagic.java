@@ -20,7 +20,7 @@ public class VisionMagic extends OpenCvPipeline {
     static double satZone3;
     public double MinDif = 45;
     public double MinZone2 = 35;
-    public double MinZone3 = 30;
+    public double MinZone3 = 60;
     Mat submat = new Mat();
     Mat hsvMat = new Mat();
     @Override
@@ -41,12 +41,12 @@ public class VisionMagic extends OpenCvPipeline {
         original.submat(zone3).setTo(new Scalar(255,0,0,0.5));
         percentDifference = getPercentDifference(satZone2,satZone3);
 
-        if (percentDifference <= MinDif) {
-            zone = 1;
+        if ( satZone3 > satZone2 && satZone3 > MinZone3) {
+            zone = 3;
         } else if (satZone2 > satZone3 && satZone2 > MinZone2) {
             zone = 2;
-        } else if (satZone3 > satZone2 && satZone3 > MinZone3) {
-            zone = 3;
+        } else if (percentDifference <= MinDif) {
+            zone = 1;
         }
         return original;
     }

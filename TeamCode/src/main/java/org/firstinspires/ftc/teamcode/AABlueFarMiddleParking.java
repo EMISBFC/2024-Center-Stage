@@ -61,9 +61,9 @@ public class AABlueFarMiddleParking extends LinearOpMode {
         public class OpenLeftGripper implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                leftGripper.setDirection(Servo.Direction.FORWARD);
+                leftGripper.setDirection(Servo.Direction.REVERSE);
 
-                leftGripper.setPosition(0.45);
+                leftGripper.setPosition(0.30);
                 return false;
             }
 
@@ -71,8 +71,8 @@ public class AABlueFarMiddleParking extends LinearOpMode {
         public class CloseLeftGripper implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                leftGripper.setDirection(Servo.Direction.FORWARD);
-                leftGripper.setPosition(0.1);
+                leftGripper.setDirection(Servo.Direction.REVERSE);
+                leftGripper.setPosition(0.50);
 
                 return false;
             }
@@ -170,10 +170,10 @@ public class AABlueFarMiddleParking extends LinearOpMode {
         Action drop2 = drive.actionBuilder(beginPose)
                 .strafeTo(new Vector2d(-117,72))
                 .waitSeconds(0.2)
-                .strafeTo(new Vector2d(-117,7))
+                .strafeTo(new Vector2d(-117,14))
                 .waitSeconds(0.2)
                 .build();
-        Action drop2_2 = drive.actionBuilder(new Pose2d(-117,7,(3*Math.PI)/2))
+        Action drop2_2 = drive.actionBuilder(new Pose2d(-117,14,(3*Math.PI)/2))
                 .waitSeconds(0.4)
                 .strafeTo(new Vector2d(-117,-27))
                 .waitSeconds(0.2)
@@ -183,13 +183,13 @@ public class AABlueFarMiddleParking extends LinearOpMode {
                 .waitSeconds(0.5)
                 .build();
         Action drop3 = drive.actionBuilder(beginPose)
-                .strafeTo(new Vector2d(-153,72))
+                .strafeTo(new Vector2d(-133,72))
                 .waitSeconds(0.2)
-                .strafeTo(new Vector2d(-153,20))
+                .strafeTo(new Vector2d(-133,20))
                 .waitSeconds(0.2)
 
                 .build();
-        Action drop3_2 = drive.actionBuilder(new Pose2d(-153,20,(3*Math.PI)/2))
+        Action drop3_2 = drive.actionBuilder(new Pose2d(-133,20,(3*Math.PI)/2))
                 .waitSeconds(0.4)
                 .strafeTo(new Vector2d(-153,-27))
                 .waitSeconds(0.2)

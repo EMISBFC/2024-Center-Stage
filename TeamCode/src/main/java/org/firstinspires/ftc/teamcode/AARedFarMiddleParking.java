@@ -61,8 +61,8 @@ public class AARedFarMiddleParking extends LinearOpMode {
         public class OpenLeftGripper implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                leftGripper.setDirection(Servo.Direction.FORWARD);
-                leftGripper.setPosition(0.6);
+                leftGripper.setDirection(Servo.Direction.REVERSE);
+                leftGripper.setPosition(0.30);
                 return false;
             }
 
@@ -70,8 +70,8 @@ public class AARedFarMiddleParking extends LinearOpMode {
         public class CloseLeftGripper implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
-                leftGripper.setDirection(Servo.Direction.FORWARD);
-                leftGripper.setPosition(0.1);
+                leftGripper.setDirection(Servo.Direction.REVERSE);
+                leftGripper.setPosition(0.50);
                 return false;
             }
 
@@ -154,10 +154,10 @@ public class AARedFarMiddleParking extends LinearOpMode {
         Action drop2 = drive.actionBuilder(beginPose)
                 .strafeTo(new Vector2d(-103,-72))
                 .waitSeconds(0.2)
-                .strafeTo(new Vector2d(-103,-7))
+                .strafeTo(new Vector2d(-103,-14))
                 .waitSeconds(0.2)
                 .build();
-        Action drop2_2 = drive.actionBuilder(new Pose2d(-103,-7,(Math.PI)/2))
+        Action drop2_2 = drive.actionBuilder(new Pose2d(-103,-14,(Math.PI)/2))
                 .waitSeconds(0.4)
 
                 .strafeTo(new Vector2d(-103,27))

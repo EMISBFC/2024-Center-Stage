@@ -23,6 +23,8 @@ public class TeleOpFull extends OpMode {
 
     private Wrist wrist;
 
+    private Launcher launcher;
+
     public static double p = 0.005, i = 0, d= 0.001;
     public static double f = 0.225;
 
@@ -49,6 +51,7 @@ public class TeleOpFull extends OpMode {
         gripper = new GripperTest(hardwareMap);
         wrist = new Wrist(hardwareMap);
         elevator = new ElevatorTest(hardwareMap);
+        launcher = new Launcher(hardwareMap);
 
         imu = new RevIMU(hardwareMap);
         imu.init();
@@ -86,6 +89,14 @@ public class TeleOpFull extends OpMode {
 //        chassis.robotCentricDrive(x, y, rx, acc);
 //        wrist.handleWristServo(gamepad2);
         elevator.handleMotors(gamepad2);
+
+        if(gamepad1.triangle){
+            launcher.launch();
+        }
+        else{
+            launcher.launcherServo.setPower(0);
+        }
+
 
        // target = arm_motor.getCurrentPosition()+5;
 

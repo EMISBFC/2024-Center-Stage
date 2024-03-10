@@ -63,8 +63,8 @@ public class AABlueClose extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
 
-                leftGripper.setDirection(Servo.Direction.FORWARD);
-                leftGripper.setPosition(0.45);
+                leftGripper.setDirection(Servo.Direction.REVERSE);
+                leftGripper.setPosition(0.30);
 
                 return false;
             }
@@ -74,8 +74,8 @@ public class AABlueClose extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
 
-                leftGripper.setDirection(Servo.Direction.FORWARD);
-                leftGripper.setPosition(0.1);
+                leftGripper.setDirection(Servo.Direction.REVERSE);
+                leftGripper.setPosition(0.50);
                 return false;
             }
 
@@ -140,12 +140,12 @@ public class AABlueClose extends LinearOpMode {
 
 
         Action drop1 = drive.actionBuilder(beginPose)
-                .strafeTo(new Vector2d(15,72))
+                .strafeTo(new Vector2d(12,72))
                 .waitSeconds(0.4)
-                .strafeTo(new Vector2d(15,27))
+                .strafeTo(new Vector2d(12,27))
                 .waitSeconds(0.4)
                 .build();
-        Action drop1_2 = drive.actionBuilder(new Pose2d(15,27,(3*Math.PI)/2))
+        Action drop1_2 = drive.actionBuilder(new Pose2d(12,27,(3*Math.PI)/2))
                 .waitSeconds(0.4)
                 .strafeTo(new Vector2d(15,71.5))
                 .waitSeconds(0.4)
@@ -154,10 +154,10 @@ public class AABlueClose extends LinearOpMode {
         Action drop2 = drive.actionBuilder(beginPose)
                 .strafeTo(new Vector2d(-7,72))
                 .waitSeconds(0.2)
-                .strafeTo(new Vector2d(-7,7))
+                .strafeTo(new Vector2d(-7,14))
                 .waitSeconds(0.4)
                 .build();
-        Action drop2_2 = drive.actionBuilder(new Pose2d(-7,7,(3*Math.PI)/2))
+        Action drop2_2 = drive.actionBuilder(new Pose2d(-7,14,(3*Math.PI)/2))
                 .waitSeconds(0.4)
                 .strafeTo(new Vector2d(-7,71.5))
                 .waitSeconds(1)
