@@ -63,7 +63,7 @@ public class AABlueFarMiddleParking extends LinearOpMode {
             public boolean run(@NonNull TelemetryPacket packet) {
                 leftGripper.setDirection(Servo.Direction.REVERSE);
 
-                leftGripper.setPosition(0.30);
+                leftGripper.setPosition(0.23);
                 return false;
             }
 
@@ -72,7 +72,7 @@ public class AABlueFarMiddleParking extends LinearOpMode {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 leftGripper.setDirection(Servo.Direction.REVERSE);
-                leftGripper.setPosition(0.50);
+                leftGripper.setPosition(0.45);
 
                 return false;
             }
@@ -92,7 +92,7 @@ public class AABlueFarMiddleParking extends LinearOpMode {
             public boolean run(@NonNull TelemetryPacket packet) {
 
                 rightGripper.setDirection(Servo.Direction.REVERSE);
-                rightGripper.setPosition(0.23);
+                rightGripper.setPosition(0.25);
                 return false;
             }
 
