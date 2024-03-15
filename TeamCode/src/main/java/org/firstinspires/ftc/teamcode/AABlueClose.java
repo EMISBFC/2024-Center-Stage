@@ -129,17 +129,17 @@ public class AABlueClose extends LinearOpMode {
                 .build();
         Action drop1_2 = drive.actionBuilder(new Pose2d(12,27,(3*Math.PI)/2))
                 .waitSeconds(0.4)
-                .strafeTo(new Vector2d(15,71.5))
+                .strafeTo(new Vector2d(12,71.5))
                 .waitSeconds(0.4)
                 .strafeTo(new Vector2d(110,71.5))
                 .build();
         Action drop2 = drive.actionBuilder(beginPose)
                 .strafeTo(new Vector2d(-7,72))
                 .waitSeconds(0.2)
-                .strafeTo(new Vector2d(-7,14))
+                .strafeTo(new Vector2d(-7,9))
                 .waitSeconds(0.4)
                 .build();
-        Action drop2_2 = drive.actionBuilder(new Pose2d(-7,14,(3*Math.PI)/2))
+        Action drop2_2 = drive.actionBuilder(new Pose2d(-7,9,(3*Math.PI)/2))
                 .waitSeconds(0.4)
                 .strafeTo(new Vector2d(-7,71.5))
                 .waitSeconds(1)

@@ -145,10 +145,10 @@ public class AABlueFar extends LinearOpMode {
         Action drop2 = drive.actionBuilder(beginPose)
                 .strafeTo(new Vector2d(-117,72))
                 .waitSeconds(0.2)
-                .strafeTo(new Vector2d(-117,14))
+                .strafeTo(new Vector2d(-117,9))
                 .waitSeconds(0.2)
                 .build();
-        Action drop2_2 = drive.actionBuilder(new Pose2d(-117,14,(3*Math.PI)/2))
+        Action drop2_2 = drive.actionBuilder(new Pose2d(-117,9,(3*Math.PI)/2))
                 .waitSeconds(0.4)
                 .strafeTo(new Vector2d(-117,65))
                 .waitSeconds(0.2)
