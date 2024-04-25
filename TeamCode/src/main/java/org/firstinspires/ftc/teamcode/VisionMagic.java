@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.teamcode.Constants.MinZone3;
+
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
@@ -15,7 +17,7 @@ public class VisionMagic extends OpenCvPipeline {
     static double satZone3;
     public double MinDif = 45;
     public double MinZone2 = 35;
-    public double MinZone3 = 60;
+
     Mat submat = new Mat();
     Mat hsvMat = new Mat();
     @Override

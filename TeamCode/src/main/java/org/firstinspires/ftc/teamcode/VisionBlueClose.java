@@ -34,6 +34,8 @@ public class VisionBlueClose {
         });
     }
         public int elementDetection(Telemetry telemetry, Scalar alliance) {
+        //really cheap fix incoming
+            Constants.MinZone3 = 70;
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {

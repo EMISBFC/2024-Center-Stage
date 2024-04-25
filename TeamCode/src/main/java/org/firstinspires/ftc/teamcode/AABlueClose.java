@@ -156,9 +156,11 @@ public class AABlueClose extends LinearOpMode {
                 .waitSeconds(0.4)
                 .strafeTo(new Vector2d(-5,20))
                 .waitSeconds(0.2)
+                .strafeTo(new Vector2d(15,20))
+                .waitSeconds(0.2)
                 .turn(Math.toRadians(90))
                 .waitSeconds(0.4)
-                .strafeTo(new Vector2d(-5,71.5))
+                .strafeTo(new Vector2d(15,71.5))
                 .waitSeconds(0.2)
                 .strafeTo(new Vector2d(110,71.5))
                 .build();
@@ -185,8 +187,6 @@ public class AABlueClose extends LinearOpMode {
                         gripper.openRightGripper(),
                         second,
                         gripper.openLeftGripper(),
-                        wait,
-                        wrist.toUp(),
                         wait
                 )
         );

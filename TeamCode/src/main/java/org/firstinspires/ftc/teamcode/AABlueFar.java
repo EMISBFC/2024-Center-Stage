@@ -131,9 +131,11 @@ public class AABlueFar extends LinearOpMode {
                 .waitSeconds(0.4)
                 .strafeTo(new Vector2d(-120,20))
                 .waitSeconds(0.2)
+                .strafeTo(new Vector2d(-140,20))
+                .waitSeconds(0.2)
                 .turn(Math.toRadians(-90))
                 .waitSeconds(0.2)
-                .strafeTo(new Vector2d(-120,65))
+                .strafeTo(new Vector2d(-140,65))
                 .waitSeconds(0.2)
                 .strafeTo(new Vector2d(65,65))
                 .waitSeconds(0.2)
@@ -197,8 +199,6 @@ public class AABlueFar extends LinearOpMode {
                         gripper.openLeftGripper(),
                         second,
                         gripper.openRightGripper(),
-                        wait,
-                        wrist.toUp(),
                         wait
                 )
         );

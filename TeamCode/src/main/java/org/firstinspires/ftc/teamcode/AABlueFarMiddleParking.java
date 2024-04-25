@@ -130,9 +130,11 @@ public class AABlueFarMiddleParking extends LinearOpMode {
                 .waitSeconds(0.4)
                 .strafeTo(new Vector2d(-120,20))
                 .waitSeconds(0.2)
+                .strafeTo(new Vector2d(-140,20))
+                .waitSeconds(0.2)
                 .turn(Math.toRadians(-90))
                 .waitSeconds(0.2)
-                .strafeTo(new Vector2d(-120,-27))
+                .strafeTo(new Vector2d(-140,-27))
                 .waitSeconds(0.2)
                 .strafeTo(new Vector2d(110,-27))
                 .waitSeconds(0.2)
@@ -200,8 +202,6 @@ public class AABlueFarMiddleParking extends LinearOpMode {
                         gripper.openLeftGripper(),
                         second,
                         gripper.openRightGripper(),
-                        wait,
-                        wrist.toUp(),
                         wait
                 )
         );
