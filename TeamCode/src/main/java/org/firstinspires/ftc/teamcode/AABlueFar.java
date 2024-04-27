@@ -20,6 +20,7 @@ import org.opencv.core.Scalar;
 
 @Autonomous(name = "AABlueFar", group = "Autonomous")
 public class AABlueFar extends LinearOpMode {
+    //for every external that you're going to use copy everything simply edit the lines inside the public boolean run()
     private class AWrist{
         private Servo wristGripper;
         public AWrist(HardwareMap hardwareMap){
@@ -103,10 +104,12 @@ public class AABlueFar extends LinearOpMode {
     }
     @Override
     public void runOpMode() throws InterruptedException {
+        //VERY IMPORTANT TO GET THE BEGGINING POSITION RIGHT INCLUDING HEADING
         Pose2d beginPose = new Pose2d(-110, 72, (3*Math.PI)/2);
 
         VisionBlueFar visionBlueFar = new VisionBlueFar(hardwareMap);
         AGripper gripper = new AGripper(hardwareMap);
+        //MecanumDrive comes as a class when you download rr1.0 and you have to look into it to tweak some values
         MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
         AWrist wrist = new AWrist(hardwareMap);
         waitForStart();
