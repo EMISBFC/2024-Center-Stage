@@ -1,3 +1,4 @@
+ //For future years the logic can be kept simply tweak the positions of the "boxes" and the MinZone of each
 package org.firstinspires.ftc.teamcode;
 //The MinZone3 is made a static in constants as it is changed for BlueClose 
 import static org.firstinspires.ftc.teamcode.Constants.MinZone3;
@@ -27,15 +28,23 @@ public class VisionMagic extends OpenCvPipeline {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
+        //switch the processing in OpenCV from RGB to saturation so you can use Core.mean
         Imgproc.cvtColor(input, hsvMat, Imgproc.COLOR_RGB2HSV);
+        //make a copy of the input to draw in
         original = input.clone();
+        //define the two zones
         Rect zone2 = new Rect(70, 100, 320, 140);
         Rect zone3 = new Rect(450, 150, 190, 260);
+        //run the core.mean thing
         satZone2 = getAvgSaturation(hsvMat, zone2);
         satZone3 = getAvgSaturation(hsvMat, zone3);
-        original.submat(zone2).setTo(new Scalar(255,0,0,0.5));
-        original.submat(zone3).setTo(new Scalar(255,0,0,0.5));
+        //draw in the original (copy) matrix two red boxes where the zones are so they can be seen in camerastream
+        original.submat(zone2).setTo(new Scalar(255,0,0,1));
+        original.submat(zone3).setTo(new Scalar(255,0,0,1));
+    
         percentDifference = getPercentDifference(satZone2,satZone3);
+
+        //the comparison to minzone3 is necessary to make sure that there is an object
         if ( satZone3 > satZone2 && satZone3 > MinZone3) {
             zone = 3;
         } else if (satZone2 > satZone3 && satZone2 > MinZone2) {
