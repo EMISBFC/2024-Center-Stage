@@ -1,5 +1,5 @@
 package org.firstinspires.ftc.teamcode;
-
+//The MinZone3 is made a static in constants as it is changed for BlueClose 
 import static org.firstinspires.ftc.teamcode.Constants.MinZone3;
 
 import org.opencv.core.Core;
