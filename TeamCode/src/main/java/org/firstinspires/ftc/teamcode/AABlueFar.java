@@ -121,7 +121,10 @@ public class AABlueFar extends LinearOpMode {
             Thread.currentThread().interrupt();
         }
         int zone = visionBlueFar.elementDetection(telemetry,new Scalar(0, 0, 255, 1));
-
+        //DO NOT USE linetoX or linetoY when strafe works perfectly, turn works fine as well
+        //this all depends on how good PID tuning is so do spend time on it
+        //MAKE SURE THAT THE BEGGINING POSE OF THE NEXT MOVEMENT IS THE ENDING OF THE MOVEMENT BEFORE
+        //put waits after each strafe to avoid errors
         Action drop1 = drive.actionBuilder(beginPose)
                 .strafeTo(new Vector2d(-120,72))
                 .waitSeconds(0.2)
@@ -179,6 +182,7 @@ public class AABlueFar extends LinearOpMode {
                 .waitSeconds(0.2)
                 .strafeTo(new Vector2d(110,71.5))
                 .build();
+        //wait is to ensure gripper has opened
         Action wait = drive.actionBuilder(new Pose2d(110,71.5, (3*Math.PI)/2))
                 .waitSeconds(1)
                 .build();
