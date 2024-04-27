@@ -1,5 +1,5 @@
 package org.firstinspires.ftc.teamcode;
-
+//All these do is set the pipeline at visionmagic and start the camera stream all the VisionBlueFar, VisionRedFar etc are the same except for MinZone3 in VisionBlueClose
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
