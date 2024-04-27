@@ -1,5 +1,5 @@
 package org.firstinspires.ftc.teamcode;
-
+//All these do is set the pipeline at visionmagic and start the camera stream all the VisionBlueFar, VisionRedFar etc are the same except for MinZone3 in VisionBlueClose
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.opencv.core.Scalar;
