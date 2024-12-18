@@ -5,67 +5,41 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class Gripper {
-    private Servo leftGripper;
-    private Servo rightGripper;
-    boolean leftOpen = false;
-    boolean rightOpen = false;
-    boolean squareLock = false;
-    boolean circleLock = false;
 
+    private Servo gripperServo; // Declare the servo
+    private final double openPosition = Constants.GRIPPER_OPEN_POSITION; // Adjust based on your hardware setup
+    private final double closePosition = Constants.GRIPPER_CLOSE_POSITION ; // Adjust based on your hardware setup
+    private final double pause = Constants.GRIPPER_PAUSE;
+    private boolean open = false;
     public Gripper(HardwareMap hardwareMap){
-        leftGripper = hardwareMap.servo.get("leftGripper");
-        rightGripper = hardwareMap.servo.get("rightGripper");
+        gripperServo = hardwareMap.servo.get("gripper");
     }
-
     public void handleServo(Gamepad gamepad) {
 
-        if(gamepad.circle && !circleLock && leftOpen){ // end me , ty u/4106Thumbs
-            leftGripper.setDirection(Servo.Direction.REVERSE);
-            leftGripper.setPosition(Constants.leftGripperClose);
-            circleLock = true;
-            leftOpen = false;
-        }
-        else if(gamepad.circle && !circleLock && !leftOpen){
-            leftGripper.setDirection(Servo.Direction.REVERSE);
-            leftGripper.setPosition(Constants.leftGripperOpen);
-            circleLock = true;
-            leftOpen = true;
-        }
-        else if(!gamepad.circle && circleLock) circleLock = false;
-
-        if(gamepad.square && !squareLock && rightOpen){ // end me , ty u/4106Thumbs
-            rightGripper.setDirection(Servo.Direction.REVERSE);
-            rightGripper.setPosition(Constants.rightGripperClose);
-            squareLock = true;
-            rightOpen = false;
-        }
-        else if(gamepad.square && !squareLock && !rightOpen){
-            rightGripper.setDirection(Servo.Direction.REVERSE);
-            rightGripper.setPosition(Constants.rightGripperOpen);
-            squareLock = true;
-            rightOpen = true;
-        }
-        else if(!gamepad.square && squareLock) squareLock = false;
-
-        if (gamepad.triangle) {
-            rightGripper.setDirection(Servo.Direction.REVERSE);
-            rightGripper.setPosition(Constants.rightGripperOpen);
-            rightOpen = true;
-            leftGripper.setDirection(Servo.Direction.REVERSE);
-            leftGripper.setPosition(Constants.leftGripperOpen);
-            leftOpen = true;
-        }
-        if(gamepad.cross){
-            rightGripper.setDirection(Servo.Direction.REVERSE);
-            rightGripper.setPosition(Constants.rightGripperClose);
-            rightOpen = false;
-            leftGripper.setDirection(Servo.Direction.REVERSE);
-            leftGripper.setPosition(Constants.leftGripperClose);
-            leftOpen = false;
+        if (gamepad.cross && open == false) {
+            open = true;
+            gripperServo.setPosition(openPosition);
+            long startTime = System.currentTimeMillis();
+            while (System.currentTimeMillis() - startTime < pause) {
+                //do nothing. YES I KNOW QUALITY CODE
+            }
+        } else if (gamepad.cross && open == true) {
+            open = false;
+            gripperServo.setPosition(closePosition);
+            long startTime = System.currentTimeMillis();
+            while (System.currentTimeMillis() - startTime < pause) {
+                //do nothing. YES I KNOW QUALITY CODE
+            }
         }
     }
-    public void open(){
-        rightOpen = true;
-        leftOpen = true;
+
+    public void setOpenPosition() {
+        open = true;
+        gripperServo.setPosition(openPosition);
+    }
+
+    public void setClosePositionGripper() {
+        open = false;
+        gripperServo.setPosition(closePosition);
     }
 }
